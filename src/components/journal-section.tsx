@@ -15,7 +15,7 @@ export function JournalSection() {
   useEffect(() => {
     let cancelled = false
 
-    fetch('https://proxy.geanpaulofrancois.workers.dev/')
+    fetch('https://zenquotes.geanpaulofrancois.workers.dev/')
       .then((res) => res.json())
       .then((data) => {
         if (cancelled) return
