@@ -18,9 +18,9 @@ export function AboutSection() {
   const heading = useReveal<HTMLDivElement>()
 
   return (
-    <section id="about" className="mx-auto w-full max-w-7xl px-6 py-24 md:px-8 md:py-36">
-      <div ref={heading.ref} className={cn(heading.visible ? 'animate-fade-rise' : 'opacity-0')}>
-        <div className="grid gap-14 md:grid-cols-12">
+    <section id="about" className="border-t border-border">
+      <div className="mx-auto w-full max-w-7xl px-6 py-24 md:px-8 md:py-36">
+        <div ref={heading.ref} className={cn('grid gap-14 md:grid-cols-12', heading.visible ? 'animate-fade-rise' : 'opacity-0')}>
           <div className="md:col-span-5">
             <div className="flex items-center gap-5">
               <img
