@@ -11,7 +11,12 @@ function ProjectCard({ project }: { project: Project }) {
       href={project.url}
       target="_blank"
       rel="noopener noreferrer"
-      className="group flex w-full shrink-0 flex-col rounded-2xl border border-border bg-card p-6 transition-transform duration-500 hover:-translate-y-1.5 sm:w-[400px]"
+      onMouseMove={(e) => {
+        const rect = e.currentTarget.getBoundingClientRect()
+        e.currentTarget.style.setProperty('--mx', `${e.clientX - rect.left}px`)
+        e.currentTarget.style.setProperty('--my', `${e.clientY - rect.top}px`)
+      }}
+      className="spotlight-card group relative flex w-full shrink-0 flex-col rounded-2xl border border-border bg-card p-6 transition-transform duration-500 hover:-translate-y-1.5 sm:w-[400px]"
     >
       <span className="flex items-start justify-between gap-3">
         <span className="flex min-w-0 items-center gap-4">

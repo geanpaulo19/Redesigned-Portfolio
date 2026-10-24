@@ -5,7 +5,7 @@ import {
   useTransform,
   type MotionValue,
 } from 'motion/react'
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, type MouseEvent as ReactMouseEvent } from 'react'
 
 import { useManilaTime } from '@/hooks/use-manila-time'
 
@@ -13,6 +13,9 @@ const EASE = [0.16, 1, 0.3, 1] as const
 
 const HERO_VIDEO =
   'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260328_105406_16f4600d-7a92-4292-b96e-b19156c7830a.mp4'
+
+/* Base variable-font axes for the name; letters bulge toward these near the cursor */
+const BASE_VF = '"wght" 800, "wdth" 112'
 
 /**
  * Fullscreen looping background video. React's muted prop is
@@ -83,7 +86,9 @@ function NameLine({
           ) : (
             <motion.span
               key={i}
+              data-letter
               className="inline-block will-change-transform"
+              style={{ fontVariationSettings: BASE_VF }}
               initial={{ y: '112%' }}
               animate={{ y: '0%' }}
               transition={{ duration: 1, ease: EASE, delay: delay + i * 0.05 }}
@@ -101,6 +106,12 @@ export function KineticHero() {
   const sectionRef = useRef<HTMLElement>(null)
   const time = useManilaTime()
   const reduced = useReducedMotion()
+  const finePointer = useRef(
+    typeof window !== 'undefined' &&
+      window.matchMedia('(hover: hover) and (pointer: fine)').matches,
+  )
+  const pointer = useRef({ x: 0, y: 0 })
+  const frame = useRef(0)
 
   // Leaving the hero flies you through the name: the lines drift
   // apart and the lockup scales past the camera while fading.
@@ -115,10 +126,48 @@ export function KineticHero() {
   const rowOpacity = useTransform(scrollYProgress, [0, 0.4], [1, 0])
   const videoScale = useTransform(scrollYProgress, [0, 1], [1, 1.12])
 
+  // Letters swell in weight and width as the cursor nears them.
+  useEffect(() => {
+    return () => cancelAnimationFrame(frame.current)
+  }, [])
+
+  const updateLetters = () => {
+    const { x, y } = pointer.current
+    sectionRef.current
+      ?.querySelectorAll<HTMLElement>('[data-letter]')
+      .forEach((el) => {
+        const r = el.getBoundingClientRect()
+        const dx = x - (r.left + r.width / 2)
+        const dy = y - (r.top + r.height / 2)
+        const f = Math.max(0, 1 - Math.hypot(dx, dy) / 340)
+        const wght = Math.round(800 + f * 100)
+        const wdth = (112 + f * 13).toFixed(1)
+        el.style.fontVariationSettings = `"wght" ${wght}, "wdth" ${wdth}`
+      })
+  }
+
+  const onLetterMove = (e: ReactMouseEvent<HTMLElement>) => {
+    if (reduced || !finePointer.current) return
+    pointer.current = { x: e.clientX, y: e.clientY }
+    cancelAnimationFrame(frame.current)
+    frame.current = requestAnimationFrame(updateLetters)
+  }
+
+  const onLetterLeave = () => {
+    cancelAnimationFrame(frame.current)
+    sectionRef.current
+      ?.querySelectorAll<HTMLElement>('[data-letter]')
+      .forEach((el) => {
+        el.style.fontVariationSettings = BASE_VF
+      })
+  }
+
   return (
     <section
       ref={sectionRef}
       id="home"
+      onMouseMove={onLetterMove}
+      onMouseLeave={onLetterLeave}
       className="relative flex min-h-[100dvh] flex-col justify-center overflow-hidden px-4 pt-24 pb-10 sm:px-6 md:px-8"
     >
       <HeroVideo scrollScale={videoScale} />

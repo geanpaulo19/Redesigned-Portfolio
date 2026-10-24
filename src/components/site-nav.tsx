@@ -6,15 +6,16 @@ const links = [
 ]
 
 /**
- * Fixed nav rendered with mix-blend-difference so it stays legible
- * over the hero video and every section below it.
+ * Fixed nav. The site is dark-only, so the nav is solid white text
+ * over a soft top gradient — legible over the hero video, bright
+ * thumbnails, and every section below, with no blend flicker.
  */
 export function SiteNav() {
   return (
     <nav
       role="navigation"
       aria-label="Main navigation"
-      className="fixed inset-x-0 top-0 z-40 mix-blend-difference"
+      className="fixed inset-x-0 top-0 z-40 bg-gradient-to-b from-background/90 via-background/50 to-transparent"
     >
       <div className="flex items-center justify-between px-6 py-5 text-white md:px-8">
         <a href="#home" className="font-display text-lg font-semibold tracking-tight" style={{ fontStretch: '105%' }}>
