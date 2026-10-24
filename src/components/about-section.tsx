@@ -12,7 +12,6 @@ const details: DetailBlock[] = [
   { label: 'Education', lines: [about.education] },
   { label: 'Experience', lines: about.experience },
   { label: 'Journey', lines: about.journey },
-  { label: 'Beyond the screen', lines: [about.hobbies] },
 ]
 
 export function AboutSection() {
@@ -74,6 +73,26 @@ export function AboutSection() {
                 </div>
               </div>
             ))}
+
+            <div className="border-t border-border py-7 md:py-8">
+              <h3 className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
+                Beyond the screen
+              </h3>
+              <p className="mt-3.5 text-foreground/90">
+                {about.hobbies.map((segment, i) =>
+                  typeof segment === 'string' ? (
+                    <span key={i}>{segment}</span>
+                  ) : (
+                    <i
+                      key={i}
+                      className={`ph ph-${segment.icon} inline-graphic text-[1.05em]`}
+                      style={{ animationDelay: `${-(i % 6) * 0.55}s` }}
+                      aria-hidden="true"
+                    />
+                  ),
+                )}
+              </p>
+            </div>
           </div>
         </div>
       </div>
