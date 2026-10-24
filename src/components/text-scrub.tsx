@@ -28,7 +28,7 @@ function Token({
     return (
       <motion.span style={{ opacity }} className="mr-[0.26em] inline-block">
         <i
-          className={`ph ph-${token.icon} inline-graphic`}
+          className={`ph ph-${token.icon} inline-graphic text-[0.72em]`}
           style={{ animationDelay: `${-(index % 5) * 0.7}s` }}
           aria-hidden="true"
         />
@@ -77,7 +77,7 @@ export function TextScrub({ segments, className }: { segments: ScrubSegment[]; c
           token.kind === 'icon' ? (
             <i
               key={i}
-              className={`ph ph-${token.icon} inline-graphic mr-[0.26em] inline-block`}
+              className={`ph ph-${token.icon} inline-graphic text-[0.72em] mr-[0.26em] inline-block`}
               aria-hidden="true"
             />
           ) : (

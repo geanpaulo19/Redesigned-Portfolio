@@ -39,7 +39,20 @@ export function AboutSection() {
                 About
               </h2>
             </div>
-            <p className="mt-7 leading-relaxed text-muted-foreground">{about.bio}</p>
+            <p className="mt-7 leading-relaxed text-muted-foreground">
+              {about.bio.map((segment, i) =>
+                typeof segment === 'string' ? (
+                  <span key={i}>{segment}</span>
+                ) : (
+                  <i
+                    key={i}
+                    className={`ph ph-${segment.icon} inline-graphic text-[1.05em]`}
+                    style={{ animationDelay: `${-(i % 5) * 0.7}s` }}
+                    aria-hidden="true"
+                  />
+                ),
+              )}
+            </p>
           </div>
 
           <div className="md:col-span-7">
