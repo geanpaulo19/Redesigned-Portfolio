@@ -65,6 +65,18 @@ export const about = {
     '2016 - Expanded client base internationally',
     '2021 - Joined Uber, working full-time',
   ],
-  hobbies:
-    'UI design, creative coding, learning new tools, watching documentaries & YouTube videos, listening to music, and sipping coffee',
+  hobbies: [
+    'UI design',
+    { icon: 'palette' },
+    ', creative coding',
+    { icon: 'code' },
+    ', learning new tools',
+    { icon: 'wrench' },
+    ', watching documentaries & YouTube videos',
+    { icon: 'film-slate' },
+    ', listening to music',
+    { icon: 'music-notes' },
+    ', and sipping coffee',
+    { icon: 'coffee' },
+  ] as (string | { icon: string })[],
 }
