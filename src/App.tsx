@@ -12,6 +12,28 @@ import { SiteNav } from '@/components/site-nav'
 import { SkillsMarquee } from '@/components/skills-marquee'
 import { TextScrub } from '@/components/text-scrub'
 import { WorkGallery } from '@/components/work-gallery'
+import { useReveal } from '@/hooks/use-reveal'
+import { cn } from '@/lib/utils'
+
+/** Supporting context that fades in under the big statement. */
+function IntroContext() {
+  const { ref, visible } = useReveal<HTMLParagraphElement>()
+
+  return (
+    <p
+      ref={ref}
+      className={cn(
+        'mt-10 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg',
+        visible ? 'animate-fade-rise' : 'opacity-0',
+      )}
+      style={visible ? { animationDelay: '0.15s' } : undefined}
+    >
+      Over the past decade, I&rsquo;ve shipped websites, landing pages, and automations for
+      clients across four countries, from family-run shops to international agencies.
+      Different industries, one standard: it has to look sharp and it has to work.
+    </p>
+  )
+}
 
 const page = (
   <div className="min-h-screen overflow-x-clip bg-background text-foreground">
@@ -34,9 +56,10 @@ const page = (
               { icon: 'code' },
               'modern web experiences with clarity, motion, and purpose.',
               { icon: 'target' },
-            ]}
-          />
-        </section>
+          ]}
+        />
+        <IntroContext />
+      </section>
 
         <WorkGallery />
         <SkillsMarquee />
