@@ -1,3 +1,4 @@
+import { AnimatedHeading } from '@/components/animated-heading'
 import { useReveal } from '@/hooks/use-reveal'
 import { cn } from '@/lib/utils'
 import { about } from '@/data/site'
@@ -36,7 +37,7 @@ export function AboutSection() {
                 className="font-display text-5xl font-bold tracking-tight sm:text-6xl"
                 style={{ fontStretch: '108%' }}
               >
-                About
+                <AnimatedHeading text="About" />
               </h2>
             </div>
             <p className="mt-7 leading-relaxed text-muted-foreground">

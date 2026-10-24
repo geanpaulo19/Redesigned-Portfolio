@@ -1,6 +1,8 @@
+import { Check, Copy } from 'lucide-react'
 import { motion, useMotionValue, useReducedMotion, useSpring } from 'motion/react'
-import { useRef, type ReactNode } from 'react'
+import { useEffect, useRef, useState, type ReactNode } from 'react'
 
+import { AnimatedHeading } from '@/components/animated-heading'
 import { Button } from '@/components/ui/button'
 import { useManilaTime } from '@/hooks/use-manila-time'
 import { useReveal } from '@/hooks/use-reveal'
@@ -42,6 +44,29 @@ function Magnetic({ children }: { children: ReactNode }) {
 export function ReachSection() {
   const time = useManilaTime()
   const { ref, visible } = useReveal<HTMLDivElement>()
+  const [copied, setCopied] = useState(false)
+  const copiedTimer = useRef<number | undefined>(undefined)
+
+  useEffect(() => () => window.clearTimeout(copiedTimer.current), [])
+
+  const copyEmail = async () => {
+    try {
+      await navigator.clipboard.writeText(contact.email)
+    } catch {
+      // Older webviews: fall back to the legacy copy path
+      const helper = document.createElement('textarea')
+      helper.value = contact.email
+      helper.style.position = 'fixed'
+      helper.style.opacity = '0'
+      document.body.appendChild(helper)
+      helper.select()
+      document.execCommand('copy')
+      helper.remove()
+    }
+    setCopied(true)
+    window.clearTimeout(copiedTimer.current)
+    copiedTimer.current = window.setTimeout(() => setCopied(false), 2000)
+  }
 
   return (
     <section id="reach" className="border-t border-border">
@@ -56,13 +81,13 @@ export function ReachSection() {
           className="font-display text-5xl font-bold tracking-tight sm:text-7xl"
           style={{ fontStretch: '108%' }}
         >
-          Like what you see?
+          <AnimatedHeading text="Like what you see?" />
         </h2>
         <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground">
           Let&rsquo;s build something amazing together.
         </p>
 
-        <div className="mt-12 flex flex-wrap items-center gap-4">
+        <div className="mt-12 flex flex-wrap items-center gap-3">
           <Magnetic>
             <Button asChild className="rounded-full px-9 py-4 text-base">
               <a href={`mailto:${contact.email}`}>Get in Touch</a>
@@ -76,6 +101,14 @@ export function ReachSection() {
             <a href={contact.whatsapp} target="_blank" rel="noopener noreferrer">
               WhatsApp
             </a>
+          </Button>
+          <Button
+            variant="outline"
+            onClick={copyEmail}
+            className="rounded-full px-9 py-4 text-base transition-transform duration-300 hover:scale-[1.03]"
+          >
+            {copied ? <Check /> : <Copy />}
+            {copied ? 'Copied' : 'Copy email'}
           </Button>
         </div>
 

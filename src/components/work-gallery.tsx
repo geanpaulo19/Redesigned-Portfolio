@@ -2,6 +2,7 @@ import { ArrowUpRight } from 'lucide-react'
 import { motion, useReducedMotion, useScroll, useTransform } from 'motion/react'
 import { useEffect, useRef, useState } from 'react'
 
+import { AnimatedHeading } from '@/components/animated-heading'
 import { Badge } from '@/components/ui/badge'
 import { projects, type Project } from '@/data/projects'
 
@@ -100,7 +101,7 @@ export function WorkGallery() {
       <div className={enabled ? 'sticky top-0 flex h-[100dvh] flex-col justify-center overflow-hidden' : ''}>
         <div className="flex items-end justify-between px-6 pb-8 md:px-8">
           <h2 className="font-display text-4xl font-bold tracking-tight sm:text-5xl" style={{ fontStretch: '108%' }}>
-            Selected Work
+            <AnimatedHeading text="Selected Work" />
           </h2>
           <p className="hidden font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground sm:block">
             {projects.length} projects
