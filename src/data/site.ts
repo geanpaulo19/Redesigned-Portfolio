@@ -45,6 +45,45 @@ export const footnotes = [
   'If it works, it works… if not, debug harder 🔧',
 ]
 
+export const services = [
+  {
+    icon: 'browser',
+    title: 'Websites',
+    description:
+      'Complete sites designed and built from scratch: fast, responsive, and easy to update.',
+  },
+  {
+    icon: 'cursor-click',
+    title: 'Landing pages',
+    description:
+      'High-converting pages for campaigns, products, and launches, built to turn visitors into inquiries.',
+  },
+  {
+    icon: 'robot',
+    title: 'GHL automations',
+    description:
+      'GoHighLevel setups that handle follow-ups, pipelines, and reminders, so no lead slips through.',
+  },
+  {
+    icon: 'shapes',
+    title: 'Logo and branding',
+    description:
+      'Logos, marks, and visual identities that look sharp everywhere, from favicon to billboard.',
+  },
+  {
+    icon: 'paint-brush',
+    title: 'Graphic design',
+    description:
+      'Social media creatives, marketing materials, and layout work that stays on-brand on every platform.',
+  },
+  {
+    icon: 'magnifying-glass',
+    title: 'SEO',
+    description:
+      'On-page SEO, technical cleanups, and content structure that help the right people find you on Google.',
+  },
+]
+
 export const about = {
   bio: [
     'I am Gean Paulo, most people call me Gean. Born and raised in the Philippines ',
