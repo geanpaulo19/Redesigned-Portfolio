@@ -21,16 +21,23 @@ const page = (
       <KineticHero />
     </header>
 
-    <main>
-      {/* Statement - the manifesto moment */}
-      <section aria-label="Introduction" className="mx-auto w-full max-w-6xl px-6 py-28 md:px-8 md:py-44">
-        <TextScrub
-          text="I design and build modern web experiences with clarity, motion, and purpose."
-          className="font-display text-3xl leading-tight font-semibold tracking-tight text-balance sm:text-5xl md:text-6xl"
-        />
-      </section>
+      <main>
+        {/* Statement - the manifesto moment, with inline graphics */}
+        <section aria-label="Introduction" className="mx-auto w-full max-w-6xl px-6 py-28 md:px-8 md:py-44">
+          <TextScrub
+            className="font-display text-3xl leading-tight font-semibold tracking-tight text-balance sm:text-5xl md:text-6xl"
+            segments={[
+              'I design',
+              { icon: 'sparkle' },
+              'and build',
+              { icon: 'code' },
+              'modern web experiences with clarity, motion, and purpose.',
+              { icon: 'target' },
+            ]}
+          />
+        </section>
 
-      <WorkGallery />
+        <WorkGallery />
       <SkillsMarquee />
       <AboutSection />
       <JournalSection />

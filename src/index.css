@@ -163,6 +163,30 @@ html.lenis body {
   .animate-fade-rise {
     animation: fade-rise 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
   }
+
+  /* Apple-style inline graphics flowing inside sentences */
+  .inline-graphic {
+    font-size: 0.72em;
+    line-height: 0;
+    vertical-align: -0.06em;
+    color: var(--accent);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes icon-twinkle {
+    0%,
+    100% {
+      transform: rotate(-7deg) scale(1);
+    }
+    50% {
+      transform: rotate(7deg) scale(1.18);
+    }
+  }
+
+  .inline-graphic {
+    animation: icon-twinkle 3.4s ease-in-out infinite;
+  }
 }
 
 /* ============================================================
