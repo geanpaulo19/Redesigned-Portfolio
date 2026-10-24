@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Sitemap -->
+    <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml" />
+
+    <title>Gean Paulo | Web Designer & Front-End Developer</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/assets/images/gp5.svg" />
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://geanpaulo.com/" />
+
+    <!-- SEO META -->
+    <meta
+      name="description"
+      content="Gean Paulo is a web designer and front-end developer specializing in modern, interactive, and user-friendly web experiences using JavaScript, HTML, CSS, UI/UX, and WordPress."
+    />
+    <meta
+      name="keywords"
+      content="Gean Paulo, web designer, front-end developer, JavaScript developer, UI UX designer, portfolio, HTML CSS, WordPress developer"
+    />
+    <meta name="author" content="Gean Paulo" />
+    <meta name="robots" content="index, follow" />
+
+    <!-- OPEN GRAPH -->
+    <meta property="og:site_name" content="Gean Paulo Portfolio" />
+    <meta property="og:title" content="Gean Paulo | Web Designer & Front-End Developer" />
+    <meta
+      property="og:description"
+      content="Designing and building modern, interactive, and user-friendly web experiences with clarity, motion, and purpose."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://geanpaulo.com/" />
+    <meta property="og:image" content="https://geanpaulo.com/assets/images/geanopengraph.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+
+    <!-- TWITTER -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Gean Paulo | Web Designer & Front-End Developer" />
+    <meta
+      name="twitter:description"
+      content="Designing and building modern, interactive, and user-friendly web experiences with clarity, motion, and purpose."
+    />
+    <meta name="twitter:image" content="https://geanpaulo.com/assets/images/geanopengraph.png" />
+
+    <!-- STRUCTURED DATA -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Gean Paulo",
+        "url": "https://geanpaulo.com/",
+        "image": "https://geanpaulo.com/assets/images/geanopengraph.png",
+        "jobTitle": "Web Designer & Front-End Developer",
+        "description": "Web designer and front-end developer creating modern, interactive, and user-friendly web experiences.",
+        "sameAs": [
+          "https://github.com/geanpaulo19",
+          "https://www.facebook.com/geanpaulofrancois/",
+          "https://x.com/geanpaulo_",
+          "https://www.instagram.com/geanpau.lo/",
+          "https://geanpaulo.link"
+        ]
+      }
+    </script>
+
+    <!-- FONTS: Archivo variable (display) + Inter 400/500 (body) + JetBrains Mono (labels) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,100..900;1,62..125,100..900&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+
+    <!-- Cal floating-popup embed code -->
+    <script type="text/javascript">
+      (function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if(typeof namespace === "string"){cal.ns[namespace] = cal.ns[namespace] || api;p(cal.ns[namespace], ar);p(cal, ["initNamespace", namespace]);} else p(cal, ar); return;} p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
+      Cal("init", "quick-consultation", {origin:"https://app.cal.com"});
+      Cal.config = Cal.config || {};
+      Cal.config.forwardQueryParams = true;
+
+      Cal.ns["quick-consultation"]("floatingButton", {"calLink":"geanpaulo/quick-consultation","config":{"layout":"month_view","useSlotsViewOnSmallScreen":"true"},"buttonText":"Book Consultation"});
+      Cal.ns["quick-consultation"]("ui", {"hideEventTypeDetails":false,"layout":"month_view"});
+    </script>
+
+    <script>
+      (function resizeFloatingBtn() {
+        const el = document.querySelector("cal-floating-button");
+        if (el && el.shadowRoot) {
+          const btn = el.shadowRoot.querySelector("button");
+          const icon = el.shadowRoot.querySelector("#button-icon svg");
+          const label = el.shadowRoot.querySelector("#button");
+          if (btn) {
+            btn.style.height = "2.5rem";
+            btn.style.padding = "0.375rem 0.875rem";
+            btn.style.fontSize = "0.8125rem";
+          }
+          if (icon) {
+            icon.style.height = "1.125rem";
+            icon.style.width = "1.125rem";
+          }
+          if (label) {
+            label.style.marginLeft = "0.375rem";
+          }
+        } else {
+          setTimeout(resizeFloatingBtn, 100);
+        }
+      })();
+    </script>
+  </body>
+</html>
