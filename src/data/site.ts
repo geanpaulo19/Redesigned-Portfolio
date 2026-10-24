@@ -46,7 +46,15 @@ export const footnotes = [
 ]
 
 export const about = {
-  bio: 'I am Gean Paulo, most people call me Gean. Born and raised in the Philippines, I have been passionate about building digital experiences for over 10 years. I started creating websites in 2014, helping small to medium businesses establish their online presence. Since then, I\u2019ve collaborated with international clients from the United States, Australia, United Arab Emirates, and the Philippines, crafting interactive, user-friendly, and visually appealing websites that blend creativity with clean, maintainable code.',
+  bio: [
+    'I am Gean Paulo, most people call me Gean. Born and raised in the Philippines ',
+    { icon: 'map-pin' },
+    ', I have been passionate about building digital experiences for over 10 years. I started creating websites in 2014, helping small to medium businesses establish their online presence. Since then, I\u2019ve collaborated with international clients ',
+    { icon: 'globe-hemisphere-west' },
+    ' from the United States, Australia, United Arab Emirates, and the Philippines, crafting interactive, user-friendly ',
+    { icon: 'smiley' },
+    ' and visually appealing websites that blend creativity with clean, maintainable code.',
+  ] as (string | { icon: string })[],
   education: 'Bachelor of Science in Information Technology, Major in Programming',
   experience: [
     'Freelance Web Designer/Developer since 2014',
