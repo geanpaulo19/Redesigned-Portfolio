@@ -112,6 +112,37 @@ html.lenis body {
       var(--background) 100%
     );
   }
+
+  /* Border ring that lights up around the cursor on dark cards */
+  .spotlight-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: radial-gradient(
+      260px circle at var(--mx, 50%) var(--my, 50%),
+      rgba(242, 241, 236, 0.5),
+      transparent 65%
+    );
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+  }
+
+  .spotlight-card:hover::after {
+    opacity: 1;
+  }
+
+  /* Hero letters morph their variable-font axes near the cursor */
+  [data-letter] {
+    transition: font-variation-settings 0.3s ease-out;
+  }
 }
 
 /* ============================================================
