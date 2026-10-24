@@ -7,6 +7,7 @@ import { JournalSection } from '@/components/journal-section'
 import { KineticHero } from '@/components/kinetic-hero'
 import { ReachSection } from '@/components/reach-section'
 import { ScrollProgress } from '@/components/scroll-progress'
+import { ServicesSection } from '@/components/services-section'
 import { SiteNav } from '@/components/site-nav'
 import { SkillsMarquee } from '@/components/skills-marquee'
 import { TextScrub } from '@/components/text-scrub'
@@ -38,8 +39,9 @@ const page = (
         </section>
 
         <WorkGallery />
-      <SkillsMarquee />
-      <AboutSection />
+        <SkillsMarquee />
+        <ServicesSection />
+        <AboutSection />
       <JournalSection />
       <ReachSection />
     </main>
