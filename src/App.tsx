@@ -46,7 +46,7 @@ const page = (
 
       <main>
         {/* Statement - the manifesto moment, with inline graphics */}
-        <section aria-label="Introduction" className="mx-auto w-full max-w-6xl px-6 py-28 md:px-8 md:py-44">
+        <section aria-label="Introduction" className="mx-auto w-full max-w-6xl px-6 pt-28 pb-28 md:px-8 md:pt-44 md:pb-0">
           <TextScrub
             className="font-display text-3xl leading-tight font-semibold tracking-tight text-balance sm:text-5xl md:text-6xl"
             segments={[
