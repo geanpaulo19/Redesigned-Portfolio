@@ -6,6 +6,8 @@
    ============================================================ */
 
 :root {
+  color-scheme: dark;
+
   --background: #0e0e10;
   --foreground: #f2f1ec;
   --muted-foreground: #9b9a93;
