@@ -49,13 +49,29 @@ const page = (
         <section aria-label="Introduction" className="mx-auto w-full max-w-6xl px-6 pt-28 pb-28 md:px-8 md:pt-44 md:pb-0">
           <TextScrub
             className="font-display text-3xl leading-tight font-semibold tracking-tight text-balance sm:text-5xl md:text-6xl"
-            segments={[
-              'I design',
-              { icon: 'sparkle' },
-              'and build',
-              { icon: 'code' },
-              'modern web experiences with clarity, motion, and purpose.',
-              { icon: 'target' },
+          segments={[
+            'I',
+            {
+              word: 'design',
+              icon: 'sparkle',
+              description:
+                'Interfaces, layouts, and visual identity, crafted around your content.',
+            },
+            'and',
+            {
+              word: 'build',
+              icon: 'code',
+              description:
+                'Fast, responsive front-ends, hand-built with clean, maintainable code.',
+            },
+            'modern web experiences with clarity, motion, and',
+            {
+              word: 'purpose',
+              icon: 'target',
+              description:
+                'Every pixel serves a goal: work that performs, not just decorates.',
+            },
+            '.',
           ]}
         />
         <IntroContext />
