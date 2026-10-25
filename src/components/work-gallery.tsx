@@ -7,10 +7,9 @@ import {
   useSpring,
   useTransform,
 } from 'motion/react'
-import { useEffect, useRef, useState, type MouseEvent as ReactMouseEvent } from 'react'
+import { useEffect, useMemo, useRef, useState, type MouseEvent as ReactMouseEvent } from 'react'
 
 import { AnimatedHeading } from '@/components/animated-heading'
-import { Badge } from '@/components/ui/badge'
 import { cn } from '@/lib/utils'
 import { projects, type Project } from '@/data/projects'
 
@@ -18,6 +17,13 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
   const reduced = useReducedMotion()
   const cardRef = useRef<HTMLAnchorElement>(null)
   const [revealed, setRevealed] = useState(false)
+  const domain = useMemo(() => {
+    try {
+      return new URL(project.url).hostname.replace(/^www\./, '')
+    } catch {
+      return ''
+    }
+  }, [project.url])
   const rotateX = useMotionValue(0)
   const rotateY = useMotionValue(0)
   const springX = useSpring(rotateX, { stiffness: 220, damping: 22 })
@@ -75,7 +81,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
         onMouseLeave={resetTilt}
         whileHover={reduced ? undefined : { y: -6 }}
         style={reduced ? undefined : { rotateX: springX, rotateY: springY, transformPerspective: 900 }}
-        className="spotlight-card group relative flex h-full flex-col rounded-2xl border border-border bg-card p-6"
+        className="spotlight-card group relative flex h-full flex-col rounded-2xl border border-border bg-card p-6 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]"
       >
         <span className="flex items-start justify-between gap-3">
           <span className="flex min-w-0 items-center gap-4">
@@ -84,28 +90,33 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
               alt=""
               loading="lazy"
               decoding="async"
-              className="size-16 shrink-0 rounded-full object-cover ring-1 ring-border transition-transform duration-700 group-hover:scale-105"
+              className="size-16 shrink-0 rounded-full object-cover ring-1 ring-border transition duration-500 group-hover:scale-105 group-hover:ring-accent/70 group-hover:shadow-[0_0_22px_-8px_var(--accent)]"
             />
-            <span className="font-display text-xl leading-tight font-semibold tracking-tight">
-              {project.title}
+            <span className="min-w-0">
+              <span className="font-display block text-xl leading-tight font-semibold tracking-tight transition-transform duration-500 group-hover:translate-x-1">
+                {project.title}
+              </span>
+              {domain && (
+                <span className="mt-0.5 block truncate font-mono text-[11px] text-muted-foreground/80">
+                  {domain}
+                </span>
+              )}
             </span>
           </span>
-          <ArrowUpRight
-            className="mt-0.5 size-5 shrink-0 text-muted-foreground transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
-            aria-hidden="true"
-          />
+          <span className="relative mt-0.5 h-5 w-5 shrink-0" aria-hidden="true">
+            <span className="absolute inset-0 flex items-center justify-end font-mono text-[11px] tabular-nums text-muted-foreground transition-opacity duration-300 group-hover:opacity-0">
+              {String(index + 1).padStart(2, '0')}
+            </span>
+            <ArrowUpRight className="absolute inset-0 size-5 text-muted-foreground opacity-0 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-foreground group-hover:opacity-100" />
+          </span>
         </span>
 
         <span className="mt-3.5 text-sm leading-relaxed text-muted-foreground">
           {project.description}
         </span>
 
-        <span className="mt-auto flex flex-wrap gap-1.5 pt-5">
-          {project.tags.map((tag) => (
-            <Badge key={tag} variant="outline" className="text-[10px] tracking-[0.14em] uppercase">
-              {tag}
-            </Badge>
-          ))}
+        <span className="mt-auto pt-5 font-mono text-[10px] tracking-[0.14em] text-muted-foreground/80 uppercase">
+          {project.tags.join(' \u00b7 ')}
         </span>
       </motion.a>
     </div>
