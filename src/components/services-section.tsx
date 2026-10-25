@@ -21,35 +21,38 @@ function ServiceCell({
   return (
     <div
       ref={ref}
-      onMouseMove={(e) => {
-        const rect = e.currentTarget.getBoundingClientRect()
-        e.currentTarget.style.setProperty('--mx', `${e.clientX - rect.left}px`)
-        e.currentTarget.style.setProperty('--my', `${e.clientY - rect.top}px`)
-      }}
-      className={cn(
-        'spotlight-card group relative rounded-xl border-t border-border pt-6 transition-colors duration-300 hover:bg-card/60',
-        visible ? 'animate-fade-rise' : 'opacity-0',
-      )}
+      className={cn('border-t border-border pt-6', visible ? 'animate-fade-rise' : 'opacity-0')}
       style={visible ? { animationDelay: `${delay}s` } : undefined}
     >
-      <div className="flex items-start justify-between">
-        <span className="flex size-11 shrink-0 items-center justify-center rounded-full bg-accent transition-transform duration-300 group-hover:-rotate-6 group-hover:scale-105">
-          <i className={`ph ph-${icon} text-[1.15rem] text-background`} aria-hidden="true" />
-        </span>
-        <span
-          className="font-mono text-[11px] tabular-nums text-muted-foreground"
-          aria-hidden="true"
-        >
-          {index}
-        </span>
-      </div>
-      <h3
-        className="font-display mt-5 text-2xl font-semibold tracking-tight transition-transform duration-500 group-hover:translate-x-1"
-        style={{ fontStretch: '106%' }}
+      {/* The hover surface is a padded card that materializes over the
+          hairline grid; negative margins keep the resting alignment. */}
+      <div
+        onMouseMove={(e) => {
+          const rect = e.currentTarget.getBoundingClientRect()
+          e.currentTarget.style.setProperty('--mx', `${e.clientX - rect.left}px`)
+          e.currentTarget.style.setProperty('--my', `${e.clientY - rect.top}px`)
+        }}
+        className="spotlight-card group relative -m-5 rounded-xl p-5 transition-colors duration-300 hover:bg-card/60"
       >
-        {title}
-      </h3>
-      <p className="mt-2.5 text-sm leading-relaxed text-muted-foreground">{description}</p>
+        <div className="flex items-start justify-between">
+          <span className="flex size-11 shrink-0 items-center justify-center rounded-full bg-accent transition-transform duration-300 group-hover:-rotate-6 group-hover:scale-105">
+            <i className={`ph ph-${icon} text-[1.15rem] text-background`} aria-hidden="true" />
+          </span>
+          <span
+            className="font-mono text-[11px] tabular-nums text-muted-foreground"
+            aria-hidden="true"
+          >
+            {index}
+          </span>
+        </div>
+        <h3
+          className="font-display mt-5 text-2xl font-semibold tracking-tight transition-transform duration-500 group-hover:translate-x-1"
+          style={{ fontStretch: '106%' }}
+        >
+          {title}
+        </h3>
+        <p className="mt-2.5 text-sm leading-relaxed text-muted-foreground">{description}</p>
+      </div>
     </div>
   )
 }
