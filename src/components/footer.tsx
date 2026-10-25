@@ -53,13 +53,17 @@ export function Footer() {
         </nav>
       </div>
 
-      <p
-        aria-hidden="true"
-        className="font-display -mb-[0.16em] mt-6 bg-cover bg-center bg-clip-text bg-[url(/assets/images/footer-mask.jpg)] bg-[#17171b] text-center text-[13.5vw] leading-none font-extrabold tracking-[-0.03em] text-transparent select-none"
-        style={{ fontStretch: '112%' }}
-      >
-        GEAN PAULO
-      </p>
+      <div className="mx-auto mt-6 w-full max-w-7xl px-6 md:px-8">
+        <div className="@container">
+          <p
+            aria-hidden="true"
+            className="font-display -mb-[0.16em] bg-cover bg-center bg-clip-text bg-[url(/assets/images/footer-mask.jpg)] bg-[#17171b] text-center text-[13.68cqi] leading-none font-extrabold tracking-[-0.03em] whitespace-nowrap text-transparent select-none"
+            style={{ fontStretch: '112%' }}
+          >
+            GEAN PAULO
+          </p>
+        </div>
+      </div>
 
       <div className="mx-auto w-full max-w-7xl px-6 pt-8 pb-6 md:px-8">
         <p className="font-mono text-[11px] text-muted-foreground">
