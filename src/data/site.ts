@@ -6,6 +6,13 @@ export const navLinks = [
   { label: 'Reach Us', href: '#reach', active: false },
 ]
 
+/** Flip `open` when your calendar fills up: both status lines update. */
+export const availability = {
+  open: true,
+  available: 'Available for projects',
+  booked: 'Currently booked',
+}
+
 export const skills = [
   { name: 'JavaScript', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg' },
   { name: 'HTML', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg' },
