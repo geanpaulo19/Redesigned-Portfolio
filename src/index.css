@@ -110,11 +110,59 @@ html.lenis body {
       to bottom,
       color-mix(in srgb, var(--background) 62%, transparent) 0%,
       transparent 24%,
-      transparent 68%,
+      transparent 52%,
+      color-mix(in srgb, var(--background) 30%, transparent) 72%,
+      color-mix(in srgb, var(--background) 68%, transparent) 88%,
       var(--background) 100%
     );
   }
+}
 
+@media (prefers-reduced-motion: no-preference) {
+  /* Hero letters press in heavy and settle to their resting weight */
+  @keyframes letter-settle {
+    from {
+      font-variation-settings: 'wght' 900, 'wdth' 118;
+    }
+    to {
+      font-variation-settings: 'wght' 800, 'wdth' 112;
+    }
+  }
+
+  .letter-settle {
+    animation: letter-settle 1.1s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  /* The greeting hand waves once as it fades in */
+  @keyframes hand-wave {
+    0% {
+      transform: rotate(0deg);
+    }
+    20% {
+      transform: rotate(-22deg);
+    }
+    40% {
+      transform: rotate(14deg);
+    }
+    60% {
+      transform: rotate(-14deg);
+    }
+    80% {
+      transform: rotate(8deg);
+    }
+    100% {
+      transform: rotate(0deg);
+    }
+  }
+
+  .hand-wave {
+    display: inline-block;
+    transform-origin: 70% 80%;
+    animation: hand-wave 1.6s ease-in-out 0.8s 1 both;
+  }
+}
+
+@layer utilities {
   /* Border ring that lights up around the cursor on dark cards */
   .spotlight-card::after {
     content: '';
