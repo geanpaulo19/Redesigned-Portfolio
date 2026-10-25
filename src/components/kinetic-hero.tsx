@@ -65,18 +65,21 @@ function HeroVideo({ scrollScale }: { scrollScale?: MotionValue<number> }) {
 
 /**
  * One line of the name: letters rise out of a clipped row,
- * distributed edge-to-edge across the viewport.
+ * distributed edge-to-edge across the viewport. A lime sparkle can
+ * trail the word as its fifth element, balancing GEAN against PAULO.
  */
 function NameLine({
   word,
   delay,
   drift,
   reduced,
+  sparkle = false,
 }: {
   word: string
   delay: number
   drift?: MotionValue<string>
   reduced: boolean | null
+  sparkle?: boolean
 }) {
   return (
     <motion.div style={{ x: drift }} className="overflow-hidden py-[0.05em]">
@@ -98,6 +101,20 @@ function NameLine({
             </motion.span>
           ),
         )}
+        {sparkle &&
+          (reduced ? (
+            <i className="ph-fill ph-star-four text-accent" aria-hidden="true" />
+          ) : (
+            <motion.i
+              data-letter
+              className="ph-fill ph-star-four inline-block text-[0.52em] text-accent will-change-transform"
+              style={{ fontVariationSettings: BASE_VF }}
+              initial={{ y: '112%' }}
+              animate={{ y: '0%' }}
+              transition={{ duration: 1, ease: EASE, delay: delay + word.length * 0.05 }}
+              aria-hidden="true"
+            />
+          ))}
       </div>
     </motion.div>
   )
@@ -193,7 +210,7 @@ export function KineticHero() {
       >
         <span className="sr-only">Gean Paulo</span>
         <span aria-hidden="true" className="block text-[clamp(4.5rem,17.5vw,17rem)]" style={{ fontStretch: '112%' }}>
-          <NameLine word="GEAN" delay={0.15} drift={reduced ? undefined : driftA} reduced={reduced} />
+          <NameLine word="GEAN" sparkle delay={0.15} drift={reduced ? undefined : driftA} reduced={reduced} />
           <NameLine word="PAULO" delay={0.4} drift={reduced ? undefined : driftB} reduced={reduced} />
         </span>
       </motion.h1>
