@@ -98,7 +98,9 @@ function ProjectCard({
         'w-full shrink-0 max-lg:sticky max-lg:top-60 sm:w-[400px]',
         revealed ? 'animate-fade-rise' : 'opacity-0',
       )}
-      style={revealed ? { animationDelay: `${index * 45}ms` } : undefined}
+      // Deck mode reveals cards one at a time, so the horizontal
+      // stagger would just add lag for deep cards.
+      style={revealed ? { animationDelay: deck ? '0ms' : `${index * 45}ms` } : undefined}
     >
       <motion.a
         ref={cardRef}
@@ -122,7 +124,11 @@ function ProjectCard({
               alt=""
               loading="lazy"
               decoding="async"
-              className="h-full w-full object-cover object-top"
+              onLoad={(e) => e.currentTarget.classList.remove('opacity-0')}
+              ref={(img) => {
+                if (img?.complete && img.naturalWidth > 0) img.classList.remove('opacity-0')
+              }}
+              className="h-full w-full object-cover object-top opacity-0 transition-opacity duration-700"
             />
             <span className="absolute inset-0 bg-gradient-to-b from-transparent from-45% to-card" />
           </span>
@@ -220,7 +226,7 @@ export function WorkGallery() {
       style={enabled ? { height: `calc(100dvh + ${distance}px)` } : undefined}
     >
       <div className={enabled ? 'sticky top-0 flex h-[100dvh] flex-col justify-center overflow-hidden' : ''}>
-        <div className="max-lg:sticky max-lg:top-0 max-lg:z-10 max-lg:bg-background max-lg:pt-20">
+        <div className="relative max-lg:sticky max-lg:top-0 max-lg:z-10 max-lg:bg-background max-lg:pt-20">
           <div className="flex items-end justify-between px-6 pb-8 md:px-8">
             <h2 className="font-display text-4xl font-bold tracking-tight sm:text-5xl" style={{ fontStretch: '108%' }}>
               <AnimatedHeading text="Selected Work" />
@@ -234,6 +240,11 @@ export function WorkGallery() {
             A decade of shipped websites, tools &amp; experiments for clients across four
             countries.
           </p>
+          {/* Cards dissolve into the header instead of hitting a hard edge */}
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-x-0 top-full hidden h-16 bg-gradient-to-b from-background to-transparent max-lg:block"
+          />
         </div>
 
         <motion.div
