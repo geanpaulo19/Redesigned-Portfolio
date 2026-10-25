@@ -22,11 +22,21 @@ const BASE_VF = '"wght" 800, "wdth" 112'
  * Fullscreen looping background video. React's muted prop is
  * unreliable for autoplay in some browsers, so the property is
  * forced before play() as a fallback. The clip pushes in slowly
- * as the hero scrolls away.
+ * as the hero scrolls away. Data savers get the poster still
+ * instead of the video download; everyone else sees the poster
+ * the instant autoplay is blocked.
  */
 function HeroVideo({ scrollScale }: { scrollScale?: MotionValue<number> }) {
   const videoRef = useRef<HTMLVideoElement>(null)
   const reduced = useReducedMotion()
+  const [lowData] = useState(() => {
+    const conn = (
+      navigator as Navigator & {
+        connection?: { saveData?: boolean; effectiveType?: string }
+      }
+    ).connection
+    return !!conn?.saveData || ['slow-2g', '2g'].includes(conn?.effectiveType ?? '')
+  })
 
   useEffect(() => {
     const video = videoRef.current
@@ -40,24 +50,33 @@ function HeroVideo({ scrollScale }: { scrollScale?: MotionValue<number> }) {
     }
 
     video.play().catch(() => {
-      /* autoplay blocked; the dark background remains */
+      /* autoplay blocked; the poster frame remains */
     })
   }, [reduced])
 
   return (
     <>
-      <motion.video
-        ref={videoRef}
-        style={scrollScale && !reduced ? { scale: scrollScale } : undefined}
-        className="absolute inset-0 z-0 h-full w-full object-cover will-change-transform"
-        autoPlay
-        loop
-        muted
-        playsInline
-        aria-hidden="true"
-      >
-        <source src={HERO_VIDEO} type="video/mp4" />
-      </motion.video>
+      {lowData ? (
+        <motion.div
+          style={scrollScale && !reduced ? { scale: scrollScale } : undefined}
+          className="absolute inset-0 z-0 bg-cover bg-center bg-[url(/assets/images/hero-poster.jpg)] will-change-transform"
+          aria-hidden="true"
+        />
+      ) : (
+        <motion.video
+          ref={videoRef}
+          style={scrollScale && !reduced ? { scale: scrollScale } : undefined}
+          className="absolute inset-0 z-0 h-full w-full object-cover will-change-transform"
+          autoPlay
+          loop
+          muted
+          playsInline
+          poster="/assets/images/hero-poster.jpg"
+          aria-hidden="true"
+        >
+          <source src={HERO_VIDEO} type="video/mp4" />
+        </motion.video>
+      )}
       <div className="hero-scrim absolute inset-0 z-[1]" aria-hidden="true" />
     </>
   )
@@ -107,8 +126,11 @@ function NameLine({
             <motion.span
               key={i}
               data-letter
-              className="inline-block will-change-transform"
-              style={{ fontVariationSettings: BASE_VF }}
+              className="letter-settle inline-block will-change-transform"
+              style={{
+                fontVariationSettings: BASE_VF,
+                animationDelay: `${delay + i * 0.05}s`,
+              }}
               initial={{ y: '112%' }}
               animate={{ y: '0%' }}
               transition={{ duration: 1, ease: EASE, delay: delay + i * 0.05 }}
@@ -246,7 +268,7 @@ export function KineticHero() {
         transition={{ duration: 0.7, ease: EASE, delay: 0.05 }}
         className="relative z-10 mb-5 flex items-center gap-2.5 font-mono text-[11px] uppercase tracking-[0.18em] text-white/70"
       >
-        <i className="ph ph-hand-waving text-accent" aria-hidden="true" />
+        <i className="ph ph-hand-waving hand-wave text-accent" aria-hidden="true" />
         {greeting}, I&rsquo;m
       </motion.p>
 
@@ -275,11 +297,22 @@ export function KineticHero() {
           </p>
 
         <p className="flex items-center gap-2.5 font-mono text-xs text-white/70">
-          <span
-            className="inline-block size-2 rounded-full"
-            style={{ background: availability.open ? 'var(--accent)' : 'var(--muted-foreground)' }}
-            aria-hidden="true"
-          />
+          <span className="relative inline-flex size-2" aria-hidden="true">
+            <span
+              className="absolute inline-flex size-full animate-ping rounded-full"
+              style={{
+                background: availability.open
+                  ? 'color-mix(in srgb, var(--accent) 60%, transparent)'
+                  : 'color-mix(in srgb, var(--muted-foreground) 60%, transparent)',
+              }}
+            />
+            <span
+              className="relative inline-flex size-2 rounded-full"
+              style={{
+                background: availability.open ? 'var(--accent)' : 'var(--muted-foreground)',
+              }}
+            />
+          </span>
           {availability.open ? availability.available : availability.booked}
           <span className="opacity-40">|</span>
           <span className="tabular-nums text-white">{time}</span> MNL
