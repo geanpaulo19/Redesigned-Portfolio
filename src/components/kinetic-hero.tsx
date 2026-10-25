@@ -107,6 +107,9 @@ export function KineticHero() {
   const sectionRef = useRef<HTMLElement>(null)
   const time = useManilaTime()
   const reduced = useReducedMotion()
+  const hour = new Date().getHours()
+  const greeting =
+    hour < 12 ? 'Good morning' : hour < 18 ? 'Good afternoon' : 'Good evening'
   const finePointer = useRef(
     typeof window !== 'undefined' &&
       window.matchMedia('(hover: hover) and (pointer: fine)').matches,
@@ -172,6 +175,16 @@ export function KineticHero() {
       className="relative flex min-h-[100dvh] flex-col justify-center overflow-hidden px-4 pt-24 pb-10 sm:px-6 md:px-8"
     >
       <HeroVideo scrollScale={videoScale} />
+
+      <motion.p
+        initial={reduced ? false : { opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.7, ease: EASE, delay: 0.05 }}
+        className="relative z-10 mb-5 flex items-center gap-2.5 font-mono text-[11px] uppercase tracking-[0.18em] text-white/70"
+      >
+        <i className="ph ph-hand-waving text-accent" aria-hidden="true" />
+        {greeting}
+      </motion.p>
 
       <motion.h1
         aria-label="Gean Paulo"

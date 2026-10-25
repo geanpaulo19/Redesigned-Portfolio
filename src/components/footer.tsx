@@ -62,14 +62,13 @@ export function Footer() {
       </p>
 
       <div className="mx-auto w-full max-w-7xl px-6 pt-8 pb-6 md:px-8">
-        <div className="flex items-center justify-between gap-4">
-          <p className="font-mono text-[11px] text-muted-foreground">
-            &copy; {new Date().getFullYear()} Gean Paulo
-          </p>
-          <p className="font-mono text-[11px] tabular-nums text-muted-foreground" aria-hidden="true">
+        <p className="font-mono text-[11px] text-muted-foreground">
+          &copy; {new Date().getFullYear()} Gean Paulo
+          <span className="opacity-40"> &middot; </span>
+          <span className="tabular-nums" aria-hidden="true">
             {viewport.width} &times; {viewport.height}
-          </p>
-        </div>
+          </span>
+        </p>
       </div>
     </footer>
   )

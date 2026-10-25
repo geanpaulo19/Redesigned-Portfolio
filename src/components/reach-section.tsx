@@ -4,7 +4,7 @@ import { useEffect, useRef, useState, type ReactNode } from 'react'
 
 import { AnimatedHeading } from '@/components/animated-heading'
 import { Button } from '@/components/ui/button'
-import { useManilaTime, manilaGreeting } from '@/hooks/use-manila-time'
+import { useManilaTime } from '@/hooks/use-manila-time'
 import { useManilaWeather, weatherIcon, weatherText } from '@/hooks/use-manila-weather'
 import { useVisitorTime } from '@/hooks/use-visitor-time'
 import { useReveal } from '@/hooks/use-reveal'
@@ -45,7 +45,6 @@ function Magnetic({ children }: { children: ReactNode }) {
 
 export function ReachSection() {
   const time = useManilaTime()
-  const greeting = manilaGreeting()
   const weather = useManilaWeather()
   const visitor = useVisitorTime()
   const { ref, visible } = useReveal<HTMLDivElement>()
@@ -125,8 +124,6 @@ export function ReachSection() {
             }}
             aria-hidden="true"
           />
-          {greeting}
-          <span className="opacity-40">|</span>
           {availability.open ? availability.available : availability.booked}
           <span className="opacity-40">|</span>
           <span className="tabular-nums text-foreground">{time}</span> MNL
