@@ -81,8 +81,20 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
         onMouseLeave={resetTilt}
         whileHover={reduced ? undefined : { y: -6 }}
         style={reduced ? undefined : { rotateX: springX, rotateY: springY, transformPerspective: 900 }}
-        className="spotlight-card group relative flex h-full flex-col rounded-2xl border border-border bg-card p-6 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]"
+        className="spotlight-card group relative flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-card p-6 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]"
       >
+        {project.shot && (
+          <span className="relative -mx-6 -mt-6 mb-5 block h-44" aria-hidden="true">
+            <img
+              src={project.shot}
+              alt=""
+              loading="lazy"
+              decoding="async"
+              className="h-full w-full object-cover object-top"
+            />
+            <span className="absolute inset-0 bg-gradient-to-b from-transparent from-45% to-card" />
+          </span>
+        )}
         <span className="flex items-start justify-between gap-3">
           <span className="flex min-w-0 items-center gap-4">
             <img
