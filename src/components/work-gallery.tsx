@@ -6,6 +6,7 @@ import {
   useScroll,
   useSpring,
   useTransform,
+  type MotionValue,
 } from 'motion/react'
 import { useEffect, useMemo, useRef, useState, type MouseEvent as ReactMouseEvent } from 'react'
 
@@ -13,7 +14,20 @@ import { AnimatedHeading } from '@/components/animated-heading'
 import { cn } from '@/lib/utils'
 import { projects, type Project } from '@/data/projects'
 
-function ProjectCard({ project, index }: { project: Project; index: number }) {
+interface DeckInfo {
+  progress: MotionValue<number>
+  count: number
+}
+
+function ProjectCard({
+  project,
+  index,
+  deck,
+}: {
+  project: Project
+  index: number
+  deck?: DeckInfo
+}) {
   const reduced = useReducedMotion()
   const cardRef = useRef<HTMLAnchorElement>(null)
   const [revealed, setRevealed] = useState(false)
@@ -28,6 +42,17 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
   const rotateY = useMotionValue(0)
   const springX = useSpring(rotateX, { stiffness: 220, damping: 22 })
   const springY = useSpring(rotateY, { stiffness: 220, damping: 22 })
+
+  // Deck mode (mobile): as the next card arrives and covers this one,
+  // this card settles back slightly for depth. Outside deck mode the
+  // range is unreachable, so scale stays 1.
+  const fallbackProgress = useMotionValue(1)
+  const deckSource = deck?.progress ?? fallbackProgress
+  const isDeckLast = !deck || index >= deck.count - 1
+  const deckRange: [number, number] = isDeckLast
+    ? [2, 3]
+    : [(index + 1) / deck.count, Math.min((index + 2) / deck.count, 1)]
+  const deckScale = useTransform(deckSource, deckRange, isDeckLast ? [1, 1] : [1, 0.94])
 
   // Cards assemble as they enter the viewport - during the pan on
   // desktop, during the vertical scroll on mobile.
@@ -69,7 +94,10 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
 
   return (
     <div
-      className={cn('w-full shrink-0 sm:w-[400px]', revealed ? 'animate-fade-rise' : 'opacity-0')}
+      className={cn(
+        'w-full shrink-0 max-lg:sticky max-lg:top-24 sm:w-[400px]',
+        revealed ? 'animate-fade-rise' : 'opacity-0',
+      )}
       style={revealed ? { animationDelay: `${index * 45}ms` } : undefined}
     >
       <motion.a
@@ -80,7 +108,11 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
         onMouseMove={handleMove}
         onMouseLeave={resetTilt}
         whileHover={reduced ? undefined : { y: -6 }}
-        style={reduced ? undefined : { rotateX: springX, rotateY: springY, transformPerspective: 900 }}
+        style={
+          reduced
+            ? undefined
+            : { rotateX: springX, rotateY: springY, transformPerspective: 900, scale: deckScale }
+        }
         className="spotlight-card group relative flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-card p-6 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]"
       >
         {project.shot && (
@@ -173,6 +205,13 @@ export function WorkGallery() {
   })
   const x = useTransform(scrollYProgress, [0, 1], [0, -distance])
 
+  // Deck mode (below lg): one progress value across the whole card
+  // column; each card maps its own shrink window onto it.
+  const { scrollYProgress: deckProgress } = useScroll({
+    target: trackRef,
+    offset: ['start start', 'end end'],
+  })
+
   return (
     <section
       id="work"
@@ -193,7 +232,7 @@ export function WorkGallery() {
         <motion.div
           ref={trackRef}
           style={enabled ? { x } : undefined}
-          className="flex flex-col gap-5 px-6 pb-16 md:px-8 lg:flex-row lg:items-stretch lg:gap-6 lg:pb-0"
+          className="flex flex-col gap-5 px-6 pb-[25vh] md:px-8 lg:flex-row lg:items-stretch lg:gap-6 lg:pb-0"
         >
           <div className="flex w-full shrink-0 flex-col justify-center lg:w-[320px]">
             <p className="max-w-[26ch] text-lg leading-snug font-medium tracking-tight text-muted-foreground">
@@ -203,7 +242,12 @@ export function WorkGallery() {
           </div>
 
           {projects.map((project, i) => (
-            <ProjectCard key={project.title} project={project} index={i} />
+            <ProjectCard
+              key={project.title}
+              project={project}
+              index={i}
+              deck={enabled || reduced ? undefined : { progress: deckProgress, count: projects.length }}
+            />
           ))}
 
           {/* Real element (not padding) so the pan distance counts the
