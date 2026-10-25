@@ -95,7 +95,7 @@ function ProjectCard({
   return (
     <div
       className={cn(
-        'w-full shrink-0 max-lg:sticky max-lg:top-24 sm:w-[400px]',
+        'w-full shrink-0 max-lg:sticky max-lg:top-60 sm:w-[400px]',
         revealed ? 'animate-fade-rise' : 'opacity-0',
       )}
       style={revealed ? { animationDelay: `${index * 45}ms` } : undefined}
@@ -220,21 +220,28 @@ export function WorkGallery() {
       style={enabled ? { height: `calc(100dvh + ${distance}px)` } : undefined}
     >
       <div className={enabled ? 'sticky top-0 flex h-[100dvh] flex-col justify-center overflow-hidden' : ''}>
-        <div className="flex items-end justify-between px-6 pb-8 md:px-8">
-          <h2 className="font-display text-4xl font-bold tracking-tight sm:text-5xl" style={{ fontStretch: '108%' }}>
-            <AnimatedHeading text="Selected Work" />
-          </h2>
-          <p className="hidden font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground sm:block">
-            {projects.length} projects
+        <div className="max-lg:sticky max-lg:top-0 max-lg:z-10 max-lg:bg-background max-lg:pt-20">
+          <div className="flex items-end justify-between px-6 pb-8 md:px-8">
+            <h2 className="font-display text-4xl font-bold tracking-tight sm:text-5xl" style={{ fontStretch: '108%' }}>
+              <AnimatedHeading text="Selected Work" />
+            </h2>
+            <p className="hidden font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground sm:block">
+              {projects.length} projects
+            </p>
+          </div>
+          {/* Mobile-only intro; desktop keeps the strip's lead-in column */}
+          <p className="px-6 pb-5 text-base leading-snug font-medium tracking-tight text-muted-foreground lg:hidden">
+            A decade of shipped websites, tools &amp; experiments for clients across four
+            countries.
           </p>
         </div>
 
         <motion.div
           ref={trackRef}
           style={enabled ? { x } : undefined}
-          className="flex flex-col gap-5 px-6 pb-[25vh] md:px-8 lg:flex-row lg:items-stretch lg:gap-6 lg:pb-0"
+          className="flex flex-col gap-5 px-6 pb-16 md:px-8 lg:flex-row lg:items-stretch lg:gap-6 lg:pb-0"
         >
-          <div className="flex w-full shrink-0 flex-col justify-center lg:w-[320px]">
+          <div className="hidden w-full shrink-0 flex-col justify-center lg:flex lg:w-[320px]">
             <p className="max-w-[26ch] text-lg leading-snug font-medium tracking-tight text-muted-foreground">
               A decade of shipped websites, tools &amp; experiments for clients across four
               countries.
