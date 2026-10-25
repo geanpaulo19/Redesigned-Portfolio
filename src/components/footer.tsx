@@ -55,7 +55,7 @@ export function Footer() {
 
       <p
         aria-hidden="true"
-        className="font-display -mb-[0.16em] mt-6 text-center text-[13.5vw] leading-none font-extrabold tracking-[-0.03em] text-foreground/[0.06] select-none"
+        className="font-display -mb-[0.16em] mt-6 bg-cover bg-center bg-clip-text bg-[url(/assets/images/footer-mask.jpg)] bg-[#17171b] text-center text-[13.5vw] leading-none font-extrabold tracking-[-0.03em] text-transparent select-none"
         style={{ fontStretch: '112%' }}
       >
         GEAN PAULO
