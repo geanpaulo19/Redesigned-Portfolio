@@ -193,7 +193,7 @@ export function WorkGallery() {
         <motion.div
           ref={trackRef}
           style={enabled ? { x } : undefined}
-          className="flex flex-col gap-5 px-6 pb-16 md:px-8 lg:flex-row lg:items-stretch lg:gap-6 lg:pb-0 lg:pr-16"
+          className="flex flex-col gap-5 px-6 pb-16 md:px-8 lg:flex-row lg:items-stretch lg:gap-6 lg:pb-0"
         >
           <div className="flex w-full shrink-0 flex-col justify-center lg:w-[320px]">
             <p className="max-w-[26ch] text-lg leading-snug font-medium tracking-tight text-muted-foreground">
@@ -205,6 +205,10 @@ export function WorkGallery() {
           {projects.map((project, i) => (
             <ProjectCard key={project.title} project={project} index={i} />
           ))}
+
+          {/* Real element (not padding) so the pan distance counts the
+              end gap - scrollWidth ignores trailing padding. */}
+          <span aria-hidden="true" className="hidden w-2 shrink-0 lg:block" />
         </motion.div>
 
         {enabled && (
