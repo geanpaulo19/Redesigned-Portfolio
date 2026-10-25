@@ -92,8 +92,9 @@ export const services = [
 ]
 
 export const about = {
-  bio: [
-    'I am Gean Paulo, most people call me Gean. Born and raised in the Philippines ',
+  bioLead: 'I am Gean Paulo, most people call me Gean.',
+  bioBody: [
+    'Born and raised in the Philippines ',
     { icon: 'map-pin' },
     ', I have been passionate about building digital experiences for over 10 years. I started creating websites in 2014, helping small to medium businesses establish their online presence. Since then, I\u2019ve collaborated with international clients ',
     { icon: 'globe-hemisphere-west' },
@@ -103,14 +104,15 @@ export const about = {
   ] as (string | { icon: string })[],
   education: 'Bachelor of Science in Information Technology, Major in Programming',
   experience: [
-    'Freelance Web Designer/Developer since 2014',
-    'Currently at Uber (2021-Present)',
+    { role: 'Freelance Web Designer / Developer', period: 'since 2014' },
+    { role: 'Currently at Uber', period: '2021 - Present' },
   ],
   journey: [
-    '2014 - Started freelance web development',
-    '2016 - Expanded client base internationally',
-    '2021 - Joined Uber, working full-time',
-  ],
+    { year: '2014', event: 'Started freelance web development' },
+    { year: '2016', event: 'Expanded client base internationally' },
+    { year: '2021', event: 'Joined Uber, working full-time' },
+    { year: '2026', event: 'Still shipping', current: true },
+  ] as { year: string; event: string; current?: boolean }[],
   hobbies: [
     {
       text: 'UI design',
