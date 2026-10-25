@@ -8,6 +8,7 @@ import {
 import { useEffect, useRef, type MouseEvent as ReactMouseEvent } from 'react'
 
 import { useManilaTime } from '@/hooks/use-manila-time'
+import { availability } from '@/data/site'
 
 const EASE = [0.16, 1, 0.3, 1] as const
 
@@ -196,16 +197,16 @@ export function KineticHero() {
             experiences.
           </p>
 
-          <p className="flex items-center gap-2.5 font-mono text-xs text-white/70">
-            <span
-              className="inline-block size-2 rounded-full"
-              style={{ background: 'var(--accent)' }}
-              aria-hidden="true"
-            />
-            Available for projects
-            <span className="opacity-40">|</span>
-            <span className="tabular-nums text-white">{time}</span> MNL
-          </p>
+        <p className="flex items-center gap-2.5 font-mono text-xs text-white/70">
+          <span
+            className="inline-block size-2 rounded-full"
+            style={{ background: availability.open ? 'var(--accent)' : 'var(--muted-foreground)' }}
+            aria-hidden="true"
+          />
+          {availability.open ? availability.available : availability.booked}
+          <span className="opacity-40">|</span>
+          <span className="tabular-nums text-white">{time}</span> MNL
+        </p>
         </motion.div>
       </motion.div>
     </section>

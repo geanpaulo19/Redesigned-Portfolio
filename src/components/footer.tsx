@@ -2,8 +2,25 @@ import { useEffect, useState } from 'react'
 
 import { footnotes, socials } from '@/data/site'
 
+/** Live viewport readout - a small front-end developer flex. */
+function useViewport() {
+  const [size, setSize] = useState(() => ({
+    width: window.innerWidth,
+    height: window.innerHeight,
+  }))
+
+  useEffect(() => {
+    const onResize = () => setSize({ width: window.innerWidth, height: window.innerHeight })
+    window.addEventListener('resize', onResize)
+    return () => window.removeEventListener('resize', onResize)
+  }, [])
+
+  return size
+}
+
 export function Footer() {
   const [index, setIndex] = useState(0)
+  const viewport = useViewport()
 
   useEffect(() => {
     const id = setInterval(() => {
@@ -45,9 +62,14 @@ export function Footer() {
       </p>
 
       <div className="mx-auto w-full max-w-7xl px-6 pt-8 pb-6 md:px-8">
-        <p className="font-mono text-[11px] text-muted-foreground">
-          &copy; {new Date().getFullYear()} Gean Paulo
-        </p>
+        <div className="flex items-center justify-between gap-4">
+          <p className="font-mono text-[11px] text-muted-foreground">
+            &copy; {new Date().getFullYear()} Gean Paulo
+          </p>
+          <p className="font-mono text-[11px] tabular-nums text-muted-foreground" aria-hidden="true">
+            {viewport.width} &times; {viewport.height}
+          </p>
+        </div>
       </div>
     </footer>
   )

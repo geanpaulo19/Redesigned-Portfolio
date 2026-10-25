@@ -4,11 +4,12 @@ import { useEffect, useRef, useState, type ReactNode } from 'react'
 
 import { AnimatedHeading } from '@/components/animated-heading'
 import { Button } from '@/components/ui/button'
-import { useManilaTime } from '@/hooks/use-manila-time'
-import { useManilaWeather, weatherIcon } from '@/hooks/use-manila-weather'
+import { useManilaTime, manilaGreeting } from '@/hooks/use-manila-time'
+import { useManilaWeather, weatherIcon, weatherText } from '@/hooks/use-manila-weather'
+import { useVisitorTime } from '@/hooks/use-visitor-time'
 import { useReveal } from '@/hooks/use-reveal'
 import { cn } from '@/lib/utils'
-import { contact } from '@/data/site'
+import { availability, contact } from '@/data/site'
 
 /** Wraps children with a spring-tracked pull toward the cursor. */
 function Magnetic({ children }: { children: ReactNode }) {
@@ -44,7 +45,9 @@ function Magnetic({ children }: { children: ReactNode }) {
 
 export function ReachSection() {
   const time = useManilaTime()
+  const greeting = manilaGreeting()
   const weather = useManilaWeather()
+  const visitor = useVisitorTime()
   const { ref, visible } = useReveal<HTMLDivElement>()
   const [copied, setCopied] = useState(false)
   const copiedTimer = useRef<number | undefined>(undefined)
@@ -117,20 +120,33 @@ export function ReachSection() {
         <p className="mt-12 flex flex-wrap items-center gap-2.5 font-mono text-xs text-muted-foreground">
           <span
             className="inline-block size-2 rounded-full"
-            style={{ background: 'var(--accent)' }}
+            style={{
+              background: availability.open ? 'var(--accent)' : 'var(--muted-foreground)',
+            }}
             aria-hidden="true"
           />
-          Available for projects
+          {greeting}
+          <span className="opacity-40">|</span>
+          {availability.open ? availability.available : availability.booked}
           <span className="opacity-40">|</span>
           <span className="tabular-nums text-foreground">{time}</span> MNL
           {weather && (
             <>
               <span className="opacity-40">|</span>
               <i className={`ph ph-${weatherIcon(weather.code)} text-accent`} aria-hidden="true" />
-              <span className="tabular-nums text-foreground">{weather.temp}&deg;C</span> in Manila
+              <span className="tabular-nums text-foreground">{weather.temp}&deg;C</span>
+              {weatherText(weather.code)} in Manila
             </>
           )}
         </p>
+
+        {visitor && (
+          <p className="mt-3 font-mono text-xs text-muted-foreground">
+            It&rsquo;s {visitor.time} where you are
+            {visitor.dayDiff === 1 && '. That\u2019s already tomorrow for me'}
+            {visitor.dayDiff === -1 && '. That\u2019s still yesterday for me'}.
+          </p>
+        )}
       </div>
     </section>
   )
