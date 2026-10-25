@@ -5,7 +5,7 @@ import {
   useTransform,
   type MotionValue,
 } from 'motion/react'
-import { useEffect, useRef, type MouseEvent as ReactMouseEvent } from 'react'
+import { useEffect, useRef, useState, type MouseEvent as ReactMouseEvent } from 'react'
 
 import { useManilaTime } from '@/hooks/use-manila-time'
 import { availability } from '@/data/site'
@@ -65,8 +65,9 @@ function HeroVideo({ scrollScale }: { scrollScale?: MotionValue<number> }) {
 
 /**
  * One line of the name: letters rise out of a clipped row,
- * distributed edge-to-edge across the viewport. A lime sparkle can
- * trail the word as its fifth element, balancing GEAN against PAULO.
+ * distributed edge-to-edge across the viewport. GEAN carries a bolt
+ * badge as its fifth element - a lime coin with a tooltip that
+ * explains the mark on hover or tap.
  */
 function NameLine({
   word,
@@ -81,8 +82,23 @@ function NameLine({
   reduced: boolean | null
   sparkle?: boolean
 }) {
+  const [tipOpen, setTipOpen] = useState(false)
+  const [settled, setSettled] = useState(reduced === true)
+  const tipId = 'name-badge-tip'
+
+  // The row clips the letters during their entrance; once they have
+  // settled, the clip is released so the badge tooltip can escape.
+  useEffect(() => {
+    if (reduced) return
+    const t = setTimeout(() => setSettled(true), 1800)
+    return () => clearTimeout(t)
+  }, [reduced])
+
   return (
-    <motion.div style={{ x: drift }} className="overflow-hidden py-[0.05em]">
+    <motion.div
+      style={{ x: drift }}
+      className={`py-[0.05em] ${settled ? 'overflow-visible' : 'overflow-hidden'}`}
+    >
       <div className="flex w-full items-baseline justify-between px-1">
         {word.split('').map((ch, i) =>
           reduced ? (
@@ -101,20 +117,51 @@ function NameLine({
             </motion.span>
           ),
         )}
-        {sparkle &&
-          (reduced ? (
-            <i className="ph-fill ph-star-four text-accent" aria-hidden="true" />
-          ) : (
-            <motion.i
-              data-letter
-              className="ph-fill ph-star-four inline-block text-[0.52em] text-accent will-change-transform"
-              style={{ fontVariationSettings: BASE_VF }}
-              initial={{ y: '112%' }}
-              animate={{ y: '0%' }}
-              transition={{ duration: 1, ease: EASE, delay: delay + word.length * 0.05 }}
-              aria-hidden="true"
-            />
-          ))}
+        {sparkle && (
+          <span className="relative inline-flex self-center">
+            {reduced ? (
+              <span
+                className="flex size-[0.6em] items-center justify-center rounded-full bg-accent"
+                aria-hidden="true"
+              >
+                <i
+                  className="ph-fill ph-lightning text-[0.38em] text-background"
+                  aria-hidden="true"
+                />
+              </span>
+            ) : (
+              <motion.button
+                type="button"
+                initial={{ y: '112%' }}
+                animate={{ y: '0%' }}
+                whileHover={{ scale: 1.06 }}
+                transition={{ duration: 1, ease: EASE, delay: delay + word.length * 0.05 }}
+                className="flex size-[0.6em] cursor-pointer items-center justify-center rounded-full bg-accent"
+                aria-label="About the bolt mark"
+                aria-describedby={tipOpen ? tipId : undefined}
+                onMouseEnter={() => setTipOpen(true)}
+                onMouseLeave={() => setTipOpen(false)}
+                onFocus={() => setTipOpen(true)}
+                onBlur={() => setTipOpen(false)}
+                onClick={() => setTipOpen((v) => !v)}
+              >
+                <i
+                  className="ph-fill ph-lightning text-[0.38em] text-background"
+                  aria-hidden="true"
+                />
+              </motion.button>
+            )}
+            {tipOpen && (
+              <span
+                role="tooltip"
+                id={tipId}
+                className="absolute bottom-[calc(100%+14px)] right-0 z-30 block w-60 rounded-xl border border-border bg-card p-3.5 text-left font-body text-sm font-normal leading-relaxed tracking-normal text-muted-foreground normal-case shadow-[0_18px_44px_-14px_rgba(0,0,0,0.65)]"
+              >
+                The bolt stands for momentum: the energy we bring to every build.
+              </span>
+            )}
+          </span>
+        )}
       </div>
     </motion.div>
   )
