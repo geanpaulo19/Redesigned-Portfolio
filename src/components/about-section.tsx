@@ -1,21 +1,10 @@
 import { motion, useReducedMotion, useScroll, useTransform } from 'motion/react'
-import { useRef, useState } from 'react'
+import { useRef, useState, type ReactNode } from 'react'
 
 import { AnimatedHeading } from '@/components/animated-heading'
 import { useReveal } from '@/hooks/use-reveal'
 import { cn } from '@/lib/utils'
 import { about } from '@/data/site'
-
-interface DetailBlock {
-  label: string
-  lines: string[]
-}
-
-const details: DetailBlock[] = [
-  { label: 'Education', lines: [about.education] },
-  { label: 'Experience', lines: about.experience },
-  { label: 'Journey', lines: about.journey },
-]
 
 /** Hobby pill matching the statement's design/build/purpose language. */
 function HobbyPill({
@@ -57,6 +46,37 @@ function HobbyPill({
   )
 }
 
+/** Numbered detail block shell, echoing the work cards' indexes. */
+function DetailShell({
+  index,
+  label,
+  children,
+  visible,
+  delay,
+}: {
+  index: string
+  label: string
+  children: ReactNode
+  visible: boolean
+  delay: number
+}) {
+  return (
+    <div
+      className={cn(
+        'border-t border-border py-7 first:border-t-0 first:pt-0 md:py-8',
+        visible ? 'animate-fade-rise' : 'opacity-0',
+      )}
+      style={visible ? { animationDelay: `${delay}s` } : undefined}
+    >
+      <h3 className="flex items-center gap-3 font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
+        <span className="tabular-nums">{index}</span>
+        {label}
+      </h3>
+      <div className="mt-3.5">{children}</div>
+    </div>
+  )
+}
+
 export function AboutSection() {
   const heading = useReveal<HTMLDivElement>()
   const sectionRef = useRef<HTMLElement>(null)
@@ -83,28 +103,46 @@ export function AboutSection() {
               <motion.img
                 src="/assets/images/hero.jpg"
                 alt="Portrait of Gean Paulo"
-                width={96}
-                height={96}
+                width={128}
+                height={128}
                 loading="lazy"
                 decoding="async"
                 style={reduced ? undefined : { y: portraitY }}
-                className="size-24 shrink-0 rounded-full object-cover ring-1 ring-border"
+                className="size-32 shrink-0 rounded-full object-cover ring-1 ring-border"
               />
-              <h2
-                className="font-display text-5xl font-bold tracking-tight sm:text-6xl"
-                style={{ fontStretch: '108%' }}
-              >
-                <AnimatedHeading text="About" />
-              </h2>
+              <div>
+                <h2
+                  className="font-display text-5xl font-bold tracking-tight sm:text-6xl"
+                  style={{ fontStretch: '108%' }}
+                >
+                  <AnimatedHeading text="About" />
+                </h2>
+                <p className="mt-2 text-sm text-muted-foreground">The person behind the work.</p>
+              </div>
             </div>
+
             <p
               className={cn(
-                'mt-7 leading-relaxed text-muted-foreground',
+                'font-display mt-9 text-2xl leading-snug font-medium tracking-tight text-foreground',
                 heading.visible ? 'animate-fade-rise' : 'opacity-0',
               )}
-              style={heading.visible ? { animationDelay: '0.1s' } : undefined}
+              style={
+                heading.visible
+                  ? { animationDelay: '0.1s', fontStretch: '104%' }
+                  : { fontStretch: '104%' }
+              }
             >
-              {about.bio.map((segment, i) =>
+              {about.bioLead}
+            </p>
+
+            <p
+              className={cn(
+                'mt-4 leading-relaxed text-muted-foreground',
+                heading.visible ? 'animate-fade-rise' : 'opacity-0',
+              )}
+              style={heading.visible ? { animationDelay: '0.18s' } : undefined}
+            >
+              {about.bioBody.map((segment, i) =>
                 typeof segment === 'string' ? (
                   <span key={i}>{segment}</span>
                 ) : (
@@ -120,44 +158,51 @@ export function AboutSection() {
           </div>
 
           <div className="md:col-span-7">
-            {details.map((block, i) => (
-              <div
-                key={block.label}
-                className={cn(
-                  'border-t border-border py-7 first:border-t-0 first:pt-0 md:py-8',
-                  heading.visible ? 'animate-fade-rise' : 'opacity-0',
-                )}
-                style={heading.visible ? { animationDelay: `${0.15 + i * 0.1}s` } : undefined}
-              >
-                <h3 className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
-                  {block.label}
-                </h3>
-                <div className="mt-3.5 space-y-1.5">
-                  {block.lines.map((line) => (
-                    <p key={line} className="text-foreground/90">
-                      {line}
-                    </p>
-                  ))}
-                </div>
-              </div>
-            ))}
+            <DetailShell index="01" label="Education" visible={heading.visible} delay={0.15}>
+              <p className="text-foreground/90">{about.education}</p>
+            </DetailShell>
 
-            <div
-              className={cn(
-                'border-t border-border py-7 md:py-8',
-                heading.visible ? 'animate-fade-rise' : 'opacity-0',
-              )}
-              style={heading.visible ? { animationDelay: '0.45s' } : undefined}
-            >
-              <h3 className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
-                Beyond the screen
-              </h3>
-              <div className="mt-3.5 flex flex-wrap gap-2">
+            <DetailShell index="02" label="Experience" visible={heading.visible} delay={0.25}>
+              <div className="space-y-2">
+                {about.experience.map((job) => (
+                  <div key={job.role} className="flex items-baseline justify-between gap-4">
+                    <p className="text-foreground/90">{job.role}</p>
+                    <p className="shrink-0 font-mono text-[11px] text-muted-foreground">
+                      {job.period}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </DetailShell>
+
+            <DetailShell index="03" label="Journey" visible={heading.visible} delay={0.35}>
+              <ol className="relative ml-1 space-y-4 border-l border-border pl-5">
+                {about.journey.map((step) => (
+                  <li key={step.year} className="relative">
+                    {step.current ? (
+                      <span className="absolute -left-5 top-[0.35em] flex size-2 -translate-x-1/2">
+                        <span className="absolute inline-flex size-full animate-ping rounded-full bg-accent/60" />
+                        <span className="relative inline-flex size-2 rounded-full bg-accent" />
+                      </span>
+                    ) : (
+                      <span className="absolute -left-5 top-[0.45em] size-2 -translate-x-1/2 rounded-full bg-accent" />
+                    )}
+                    <p className="font-mono text-[11px] tabular-nums text-muted-foreground">
+                      {step.year}
+                    </p>
+                    <p className="text-foreground/90">{step.event}</p>
+                  </li>
+                ))}
+              </ol>
+            </DetailShell>
+
+            <DetailShell index="04" label="Beyond the screen" visible={heading.visible} delay={0.45}>
+              <div className="flex flex-wrap gap-2">
                 {about.hobbies.map((hobby) => (
                   <HobbyPill key={hobby.text} {...hobby} />
                 ))}
               </div>
-            </div>
+            </DetailShell>
           </div>
         </div>
       </div>
