@@ -5,6 +5,7 @@ import { useEffect, useRef, useState, type ReactNode } from 'react'
 import { AnimatedHeading } from '@/components/animated-heading'
 import { Button } from '@/components/ui/button'
 import { useManilaTime } from '@/hooks/use-manila-time'
+import { useManilaWeather, weatherIcon } from '@/hooks/use-manila-weather'
 import { useReveal } from '@/hooks/use-reveal'
 import { cn } from '@/lib/utils'
 import { contact } from '@/data/site'
@@ -43,6 +44,7 @@ function Magnetic({ children }: { children: ReactNode }) {
 
 export function ReachSection() {
   const time = useManilaTime()
+  const weather = useManilaWeather()
   const { ref, visible } = useReveal<HTMLDivElement>()
   const [copied, setCopied] = useState(false)
   const copiedTimer = useRef<number | undefined>(undefined)
@@ -112,7 +114,7 @@ export function ReachSection() {
           </Button>
         </div>
 
-        <p className="mt-12 flex items-center gap-2.5 font-mono text-xs text-muted-foreground">
+        <p className="mt-12 flex flex-wrap items-center gap-2.5 font-mono text-xs text-muted-foreground">
           <span
             className="inline-block size-2 rounded-full"
             style={{ background: 'var(--accent)' }}
@@ -121,6 +123,13 @@ export function ReachSection() {
           Available for projects
           <span className="opacity-40">|</span>
           <span className="tabular-nums text-foreground">{time}</span> MNL
+          {weather && (
+            <>
+              <span className="opacity-40">|</span>
+              <i className={`ph ph-${weatherIcon(weather.code)} text-accent`} aria-hidden="true" />
+              <span className="tabular-nums text-foreground">{weather.temp}&deg;C</span> in Manila
+            </>
+          )}
         </p>
       </div>
     </section>
