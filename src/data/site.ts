@@ -8,7 +8,7 @@ export const navLinks = [
 
 /** Flip `open` when your calendar fills up: both status lines update. */
 export const availability = {
-  open: false,
+  open: true,
   available: 'Available for projects',
   booked: 'Currently booked',
 }
@@ -112,17 +112,35 @@ export const about = {
     '2021 - Joined Uber, working full-time',
   ],
   hobbies: [
-    'UI design ',
-    { icon: 'palette' },
-    ', creative coding ',
-    { icon: 'code' },
-    ', learning new tools ',
-    { icon: 'wrench' },
-    ', watching documentaries & YouTube videos ',
-    { icon: 'film-slate' },
-    ', listening to music ',
-    { icon: 'music-notes' },
-    ', and sipping coffee',
-    { icon: 'coffee' },
-  ] as (string | { icon: string })[],
+    {
+      text: 'UI design',
+      icon: 'palette',
+      description: 'Side quests in Figma, redesigning things nobody asked me to fix.',
+    },
+    {
+      text: 'Creative coding',
+      icon: 'code',
+      description: 'Weekend experiments that occasionally turn into real products.',
+    },
+    {
+      text: 'Learning new tools',
+      icon: 'wrench',
+      description: 'New apps and frameworks, one rabbit hole at a time.',
+    },
+    {
+      text: 'Documentaries & YouTube',
+      icon: 'film-slate',
+      description: 'True crime, space, and design channels on heavy rotation.',
+    },
+    {
+      text: 'Music',
+      icon: 'music-notes',
+      description: 'Lo-fi and OPM playlists keeping the builds flowing.',
+    },
+    {
+      text: 'Coffee',
+      icon: 'coffee',
+      description: 'Iced lattes, any time of day.',
+    },
+  ],
 }
