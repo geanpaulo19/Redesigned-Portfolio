@@ -86,7 +86,6 @@ function PillToken({
         onMouseLeave={() => setOpen(false)}
         onFocus={() => setOpen(true)}
         onBlur={() => setOpen(false)}
-        onClick={() => setOpen((v) => !v)}
         className="inline-flex cursor-pointer items-center gap-[0.18em] rounded-full border border-border bg-foreground/[0.04] px-[0.3em] py-[0.02em] align-baseline transition-colors duration-300 hover:border-foreground/40"
       >
         {token.word}
@@ -100,8 +99,8 @@ function PillToken({
           role="tooltip"
           id={tipId}
           className={cn(
-            'absolute bottom-[calc(100%+0.45em)] z-30 block w-60 rounded-xl border border-border bg-card p-3.5 text-left font-body text-sm font-normal leading-relaxed tracking-normal text-muted-foreground normal-case shadow-[0_18px_44px_-14px_rgba(0,0,0,0.65)]',
-            align === 'center' ? 'left-1/2 -translate-x-1/2' : 'right-0',
+            'absolute bottom-[calc(100%+0.45em)] left-0 z-30 block w-56 max-w-[calc(100vw-3rem)] rounded-xl border border-border bg-card p-3.5 text-left font-body text-sm font-normal leading-relaxed tracking-normal text-muted-foreground normal-case shadow-[0_18px_44px_-14px_rgba(0,0,0,0.65)] sm:left-1/2 sm:-translate-x-1/2',
+            align === 'right' && 'sm:left-auto sm:right-0 sm:translate-x-0',
           )}
         >
           {token.description}

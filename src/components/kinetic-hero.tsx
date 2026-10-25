@@ -118,7 +118,7 @@ function NameLine({
           ),
         )}
         {sparkle && (
-          <span className="relative inline-flex self-center">
+          <span className="relative inline-flex self-baseline -translate-y-[0.185em]">
             {reduced ? (
               <span
                 className="flex size-[0.6em] items-center justify-center rounded-full bg-accent"
