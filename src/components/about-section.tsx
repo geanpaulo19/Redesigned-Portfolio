@@ -1,3 +1,6 @@
+import { motion, useReducedMotion, useScroll, useTransform } from 'motion/react'
+import { useRef } from 'react'
+
 import { AnimatedHeading } from '@/components/animated-heading'
 import { useReveal } from '@/hooks/use-reveal'
 import { cn } from '@/lib/utils'
@@ -16,20 +19,35 @@ const details: DetailBlock[] = [
 
 export function AboutSection() {
   const heading = useReveal<HTMLDivElement>()
+  const sectionRef = useRef<HTMLElement>(null)
+  const reduced = useReducedMotion()
+
+  // The portrait drifts against the scroll for a little depth.
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start end', 'end start'],
+  })
+  const portraitY = useTransform(scrollYProgress, [0, 1], [26, -26])
 
   return (
-    <section id="about" className="border-t border-border">
+    <section id="about" ref={sectionRef} className="border-t border-border">
       <div className="mx-auto w-full max-w-7xl px-6 py-24 md:px-8 md:py-36">
-        <div ref={heading.ref} className={cn('grid gap-14 md:grid-cols-12', heading.visible ? 'animate-fade-rise' : 'opacity-0')}>
+        <div ref={heading.ref} className="grid gap-14 md:grid-cols-12">
           <div className="md:col-span-5">
-            <div className="flex items-center gap-5">
-              <img
+            <div
+              className={cn(
+                'flex items-center gap-5',
+                heading.visible ? 'animate-fade-rise' : 'opacity-0',
+              )}
+            >
+              <motion.img
                 src="/assets/images/hero.jpg"
                 alt="Portrait of Gean Paulo"
                 width={96}
                 height={96}
                 loading="lazy"
                 decoding="async"
+                style={reduced ? undefined : { y: portraitY }}
                 className="size-24 shrink-0 rounded-full object-cover ring-1 ring-border"
               />
               <h2
@@ -39,7 +57,13 @@ export function AboutSection() {
                 <AnimatedHeading text="About" />
               </h2>
             </div>
-            <p className="mt-7 leading-relaxed text-muted-foreground">
+            <p
+              className={cn(
+                'mt-7 leading-relaxed text-muted-foreground',
+                heading.visible ? 'animate-fade-rise' : 'opacity-0',
+              )}
+              style={heading.visible ? { animationDelay: '0.1s' } : undefined}
+            >
               {about.bio.map((segment, i) =>
                 typeof segment === 'string' ? (
                   <span key={i}>{segment}</span>
@@ -56,10 +80,14 @@ export function AboutSection() {
           </div>
 
           <div className="md:col-span-7">
-            {details.map((block) => (
+            {details.map((block, i) => (
               <div
                 key={block.label}
-                className="border-t border-border py-7 first:border-t-0 first:pt-0 md:py-8"
+                className={cn(
+                  'border-t border-border py-7 first:border-t-0 first:pt-0 md:py-8',
+                  heading.visible ? 'animate-fade-rise' : 'opacity-0',
+                )}
+                style={heading.visible ? { animationDelay: `${0.15 + i * 0.1}s` } : undefined}
               >
                 <h3 className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
                   {block.label}
@@ -74,7 +102,13 @@ export function AboutSection() {
               </div>
             ))}
 
-            <div className="border-t border-border py-7 md:py-8">
+            <div
+              className={cn(
+                'border-t border-border py-7 md:py-8',
+                heading.visible ? 'animate-fade-rise' : 'opacity-0',
+              )}
+              style={heading.visible ? { animationDelay: '0.45s' } : undefined}
+            >
               <h3 className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
                 Beyond the screen
               </h3>

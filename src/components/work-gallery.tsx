@@ -1,55 +1,114 @@
 import { ArrowUpRight } from 'lucide-react'
-import { motion, useReducedMotion, useScroll, useTransform } from 'motion/react'
-import { useEffect, useRef, useState } from 'react'
+import {
+  motion,
+  useMotionValue,
+  useReducedMotion,
+  useScroll,
+  useSpring,
+  useTransform,
+} from 'motion/react'
+import { useEffect, useRef, useState, type MouseEvent as ReactMouseEvent } from 'react'
 
 import { AnimatedHeading } from '@/components/animated-heading'
 import { Badge } from '@/components/ui/badge'
+import { cn } from '@/lib/utils'
 import { projects, type Project } from '@/data/projects'
 
-function ProjectCard({ project }: { project: Project }) {
+function ProjectCard({ project, index }: { project: Project; index: number }) {
+  const reduced = useReducedMotion()
+  const cardRef = useRef<HTMLAnchorElement>(null)
+  const [revealed, setRevealed] = useState(false)
+  const rotateX = useMotionValue(0)
+  const rotateY = useMotionValue(0)
+  const springX = useSpring(rotateX, { stiffness: 220, damping: 22 })
+  const springY = useSpring(rotateY, { stiffness: 220, damping: 22 })
+
+  // Cards assemble as they enter the viewport - during the pan on
+  // desktop, during the vertical scroll on mobile.
+  useEffect(() => {
+    const el = cardRef.current
+    if (!el) return
+    if (reduced) {
+      setRevealed(true)
+      return
+    }
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setRevealed(true)
+          io.disconnect()
+        }
+      },
+      { threshold: 0.25 },
+    )
+    io.observe(el)
+    return () => io.disconnect()
+  }, [reduced])
+
+  const handleMove = (e: ReactMouseEvent<HTMLAnchorElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect()
+    e.currentTarget.style.setProperty('--mx', `${e.clientX - rect.left}px`)
+    e.currentTarget.style.setProperty('--my', `${e.clientY - rect.top}px`)
+    if (reduced) return
+    const px = (e.clientX - rect.left) / rect.width - 0.5
+    const py = (e.clientY - rect.top) / rect.height - 0.5
+    rotateY.set(px * 8)
+    rotateX.set(py * -8)
+  }
+
+  const resetTilt = () => {
+    rotateX.set(0)
+    rotateY.set(0)
+  }
+
   return (
-    <a
-      href={project.url}
-      target="_blank"
-      rel="noopener noreferrer"
-      onMouseMove={(e) => {
-        const rect = e.currentTarget.getBoundingClientRect()
-        e.currentTarget.style.setProperty('--mx', `${e.clientX - rect.left}px`)
-        e.currentTarget.style.setProperty('--my', `${e.clientY - rect.top}px`)
-      }}
-      className="spotlight-card group relative flex w-full shrink-0 flex-col rounded-2xl border border-border bg-card p-6 transition-transform duration-500 hover:-translate-y-1.5 sm:w-[400px]"
+    <div
+      className={cn('w-full shrink-0 sm:w-[400px]', revealed ? 'animate-fade-rise' : 'opacity-0')}
+      style={revealed ? { animationDelay: `${index * 45}ms` } : undefined}
     >
-      <span className="flex items-start justify-between gap-3">
-        <span className="flex min-w-0 items-center gap-4">
-          <img
-            src={project.image}
-            alt=""
-            loading="lazy"
-            decoding="async"
-            className="size-16 shrink-0 rounded-full object-cover ring-1 ring-border transition-transform duration-700 group-hover:scale-105"
-          />
-          <span className="font-display text-xl leading-tight font-semibold tracking-tight">
-            {project.title}
+      <motion.a
+        ref={cardRef}
+        href={project.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        onMouseMove={handleMove}
+        onMouseLeave={resetTilt}
+        whileHover={reduced ? undefined : { y: -6 }}
+        style={reduced ? undefined : { rotateX: springX, rotateY: springY, transformPerspective: 900 }}
+        className="spotlight-card group relative flex h-full flex-col rounded-2xl border border-border bg-card p-6"
+      >
+        <span className="flex items-start justify-between gap-3">
+          <span className="flex min-w-0 items-center gap-4">
+            <img
+              src={project.image}
+              alt=""
+              loading="lazy"
+              decoding="async"
+              className="size-16 shrink-0 rounded-full object-cover ring-1 ring-border transition-transform duration-700 group-hover:scale-105"
+            />
+            <span className="font-display text-xl leading-tight font-semibold tracking-tight">
+              {project.title}
+            </span>
           </span>
+          <ArrowUpRight
+            className="mt-0.5 size-5 shrink-0 text-muted-foreground transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+            aria-hidden="true"
+          />
         </span>
-        <ArrowUpRight
-          className="mt-0.5 size-5 shrink-0 text-muted-foreground transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
-          aria-hidden="true"
-        />
-      </span>
 
-      <span className="mt-3.5 text-sm leading-relaxed text-muted-foreground">
-        {project.description}
-      </span>
+        <span className="mt-3.5 text-sm leading-relaxed text-muted-foreground">
+          {project.description}
+        </span>
 
-      <span className="mt-auto flex flex-wrap gap-1.5 pt-5">
-        {project.tags.map((tag) => (
-          <Badge key={tag} variant="outline" className="text-[10px] tracking-[0.14em] uppercase">
-            {tag}
-          </Badge>
-        ))}
-      </span>
-    </a>
+        <span className="mt-auto flex flex-wrap gap-1.5 pt-5">
+          {project.tags.map((tag) => (
+            <Badge key={tag} variant="outline" className="text-[10px] tracking-[0.14em] uppercase">
+              {tag}
+            </Badge>
+          ))}
+        </span>
+      </motion.a>
+    </div>
   )
 }
 
@@ -120,8 +179,8 @@ export function WorkGallery() {
             </p>
           </div>
 
-          {projects.map((project) => (
-            <ProjectCard key={project.title} project={project} />
+          {projects.map((project, i) => (
+            <ProjectCard key={project.title} project={project} index={i} />
           ))}
         </motion.div>
 
