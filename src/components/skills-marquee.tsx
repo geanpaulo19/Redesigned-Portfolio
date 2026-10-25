@@ -9,7 +9,7 @@ function SkillList({ hidden = false }: { hidden?: boolean }) {
       {skills.map((skill) => (
         <li
           key={skill.name}
-          className="flex items-center gap-2.5 rounded-full border border-border bg-card px-5 py-2.5 text-sm font-medium whitespace-nowrap"
+          className="flex items-center gap-2.5 rounded-full border border-border bg-card px-5 py-2.5 text-sm font-medium whitespace-nowrap transition-colors duration-300 hover:border-foreground/40"
         >
           <img src={skill.icon} alt="" width={20} height={20} loading="lazy" className="size-5 object-contain" />
           {skill.name}
