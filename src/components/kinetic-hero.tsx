@@ -247,7 +247,7 @@ export function KineticHero() {
         className="relative z-10 mb-5 flex items-center gap-2.5 font-mono text-[11px] uppercase tracking-[0.18em] text-white/70"
       >
         <i className="ph ph-hand-waving text-accent" aria-hidden="true" />
-        {greeting}
+        {greeting}, I&rsquo;m
       </motion.p>
 
       <motion.h1
