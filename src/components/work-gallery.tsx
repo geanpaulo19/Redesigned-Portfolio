@@ -23,10 +23,12 @@ function ProjectCard({
   project,
   index,
   deck,
+  deckTop,
 }: {
   project: Project
   index: number
   deck?: DeckInfo
+  deckTop: number
 }) {
   const reduced = useReducedMotion()
   const cardRef = useRef<HTMLAnchorElement>(null)
@@ -95,12 +97,17 @@ function ProjectCard({
   return (
     <div
       className={cn(
-        'w-full shrink-0 max-lg:sticky max-lg:top-60 sm:w-[400px]',
+        'w-full shrink-0 max-lg:sticky sm:w-[400px]',
         revealed ? 'animate-fade-rise' : 'opacity-0',
       )}
       // Deck mode reveals cards one at a time, so the horizontal
-      // stagger would just add lag for deep cards.
-      style={revealed ? { animationDelay: deck ? '0ms' : `${index * 45}ms` } : undefined}
+      // stagger would just add lag for deep cards. The stick offset
+      // comes from the measured header height (inline top is ignored
+      // on desktop, where the wrapper is static).
+      style={{
+        top: deckTop,
+        ...(revealed ? { animationDelay: deck ? '0ms' : `${index * 45}ms` } : {}),
+      }}
     >
       <motion.a
         ref={cardRef}
@@ -181,8 +188,13 @@ function ProjectCard({
 export function WorkGallery() {
   const sectionRef = useRef<HTMLElement>(null)
   const trackRef = useRef<HTMLDivElement>(null)
+  const deckHeaderRef = useRef<HTMLDivElement>(null)
   const [distance, setDistance] = useState(0)
   const [isDesktop, setIsDesktop] = useState(false)
+  // Deck cards stick just below the sticky header; derived from its
+  // real rendered height so font/device differences can never make a
+  // card stick underneath it.
+  const [deckTop, setDeckTop] = useState(256)
   const reduced = useReducedMotion()
 
   const enabled = isDesktop && !reduced
@@ -193,6 +205,8 @@ export function WorkGallery() {
       setIsDesktop(media.matches)
       const track = trackRef.current
       if (track) setDistance(Math.max(track.scrollWidth - window.innerWidth, 0))
+      const headerH = deckHeaderRef.current?.offsetHeight
+      if (headerH) setDeckTop(headerH + 16)
     }
 
     measure()
@@ -226,7 +240,10 @@ export function WorkGallery() {
       style={enabled ? { height: `calc(100dvh + ${distance}px)` } : undefined}
     >
       <div className={enabled ? 'sticky top-0 flex h-[100dvh] flex-col justify-center overflow-hidden' : ''}>
-        <div className="relative max-lg:sticky max-lg:top-0 max-lg:z-10 max-lg:bg-background max-lg:pt-20">
+        <div
+          ref={deckHeaderRef}
+          className="relative max-lg:sticky max-lg:top-0 max-lg:z-10 max-lg:bg-background max-lg:pt-20"
+        >
           <div className="flex items-end justify-between px-6 pb-8 md:px-8">
             <h2 className="font-display text-4xl font-bold tracking-tight sm:text-5xl" style={{ fontStretch: '108%' }}>
               <AnimatedHeading text="Selected Work" />
@@ -264,6 +281,7 @@ export function WorkGallery() {
               key={project.title}
               project={project}
               index={i}
+              deckTop={deckTop}
               deck={enabled || reduced ? undefined : { progress: deckProgress, count: projects.length }}
             />
           ))}
