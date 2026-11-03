@@ -97,7 +97,9 @@ function ProjectCard({
   return (
     <div
       className={cn(
-        'w-full shrink-0 max-lg:sticky sm:w-[400px]',
+        // 340px cards in the 500-640px band keep a peek of the next
+        // card visible at every pan position; 400px from sm up.
+        'w-full shrink-0 max-phone:sticky phone:w-[340px] sm:w-[400px]',
         revealed ? 'animate-fade-rise' : 'opacity-0',
       )}
       // Deck mode reveals cards one at a time, so the horizontal
@@ -182,27 +184,31 @@ function ProjectCard({
 
 /**
  * Act 1 closer: the projects as a horizontal film strip.
- * Vertical scroll drives the pan on desktop; on small screens
- * or under reduced motion it falls back to a vertical stack.
+ * Vertical scroll drives the pan on wide-enough screens - from 500px,
+ * so foldables unfolded get the strip, not the deck. On phones
+ * (portrait) or under reduced motion it falls back to the card deck.
  */
 export function WorkGallery() {
   const sectionRef = useRef<HTMLElement>(null)
   const trackRef = useRef<HTMLDivElement>(null)
   const deckHeaderRef = useRef<HTMLDivElement>(null)
   const [distance, setDistance] = useState(0)
-  const [isDesktop, setIsDesktop] = useState(false)
+  const [isStripLayout, setIsStripLayout] = useState(false)
   // Deck cards stick just below the sticky header; derived from its
   // real rendered height so font/device differences can never make a
   // card stick underneath it.
   const [deckTop, setDeckTop] = useState(256)
   const reduced = useReducedMotion()
 
-  const enabled = isDesktop && !reduced
+  const enabled = isStripLayout && !reduced
 
   useEffect(() => {
-    const media = window.matchMedia('(min-width: 1024px)')
+    // 500px splits phones (344-440px, stacked deck) from foldables
+    // unfolded (540-717px, film strip). Fires when a foldable is
+    // folded/unfolded or a phone rotates.
+    const media = window.matchMedia('(min-width: 500px)')
     const measure = () => {
-      setIsDesktop(media.matches)
+      setIsStripLayout(media.matches)
       const track = trackRef.current
       if (track) setDistance(Math.max(track.scrollWidth - window.innerWidth, 0))
       const headerH = deckHeaderRef.current?.offsetHeight
@@ -225,7 +231,7 @@ export function WorkGallery() {
   })
   const x = useTransform(scrollYProgress, [0, 1], [0, -distance])
 
-  // Deck mode (below lg): one progress value across the whole card
+  // Deck mode (phones): one progress value across the whole card
   // column; each card maps its own shrink window onto it.
   const { scrollYProgress: deckProgress } = useScroll({
     target: trackRef,
@@ -242,7 +248,7 @@ export function WorkGallery() {
       <div className={enabled ? 'sticky top-0 flex h-[100dvh] flex-col justify-center overflow-hidden' : ''}>
         <div
           ref={deckHeaderRef}
-          className="relative max-lg:sticky max-lg:top-0 max-lg:z-10 max-lg:bg-background max-lg:pt-20"
+          className="relative max-phone:sticky max-phone:top-0 max-phone:z-10 max-phone:bg-background max-phone:pt-20"
         >
           <div className="flex items-end justify-between px-6 pb-8 md:px-8">
             <h2 className="font-display text-4xl font-bold tracking-tight sm:text-5xl" style={{ fontStretch: '108%' }}>
@@ -253,23 +259,23 @@ export function WorkGallery() {
             </p>
           </div>
           {/* Mobile-only intro; desktop keeps the strip's lead-in column */}
-          <p className="px-6 pb-5 text-base leading-snug font-medium tracking-tight text-muted-foreground lg:hidden">
+          <p className="px-6 pb-5 text-base leading-snug font-medium tracking-tight text-muted-foreground phone:hidden">
             A decade of shipped websites, tools &amp; experiments for clients across four
             countries.
           </p>
           {/* Cards dissolve into the header instead of hitting a hard edge */}
           <span
             aria-hidden="true"
-            className="pointer-events-none absolute inset-x-0 top-full hidden h-16 bg-gradient-to-b from-background to-transparent max-lg:block"
+            className="pointer-events-none absolute inset-x-0 top-full hidden h-16 bg-gradient-to-b from-background to-transparent max-phone:block"
           />
         </div>
 
         <motion.div
           ref={trackRef}
           style={enabled ? { x } : undefined}
-          className="flex flex-col gap-5 px-6 pb-16 md:px-8 lg:flex-row lg:items-stretch lg:gap-6 lg:pb-0"
+          className="flex flex-col gap-5 px-6 pb-16 md:px-8 phone:flex-row phone:items-stretch phone:gap-6 phone:pb-0"
         >
-          <div className="hidden w-full shrink-0 flex-col justify-center lg:flex lg:w-[320px]">
+          <div className="hidden w-full shrink-0 flex-col justify-center phone:flex phone:w-[320px]">
             <p className="max-w-[26ch] text-lg leading-snug font-medium tracking-tight text-muted-foreground">
               A decade of shipped websites, tools &amp; experiments for clients across four
               countries.
@@ -288,7 +294,7 @@ export function WorkGallery() {
 
           {/* Real element (not padding) so the pan distance counts the
               end gap - scrollWidth ignores trailing padding. */}
-          <span aria-hidden="true" className="hidden w-2 shrink-0 lg:block" />
+          <span aria-hidden="true" className="hidden w-2 shrink-0 phone:block" />
         </motion.div>
 
         {enabled && (
