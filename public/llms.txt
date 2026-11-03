@@ -1,0 +1,57 @@
+# Gean Paulo
+
+> Filipino web designer & front-end developer based in Manila, Philippines, with over 10 years of experience building websites, tools, and digital products for clients across the United States, Australia, the United Arab Emirates, and the Philippines. Currently open for freelance projects. Local time zone: Asia/Manila (GMT+8).
+
+This is the portfolio site of Gean Paulo, available at [https://geanpaulo.com](https://geanpaulo.com). The site is a single-page client-rendered React application, so this file provides its full content in plain text.
+
+## About
+
+I am Gean Paulo, most people call me Gean. Born and raised in the Philippines, I have been passionate about building digital experiences for over 10 years. I started creating websites in 2014, helping small to medium businesses establish their online presence. Since then, I've collaborated with international clients from the United States, Australia, United Arab Emirates, and the Philippines, crafting interactive, user-friendly and visually appealing websites that blend creativity with clean, maintainable code.
+
+- Education: Bachelor of Science in Information Technology, Major in Programming
+- Experience: Freelance Web Designer / Developer (since 2014); currently also working full-time at Uber (2021 - present)
+- Timeline: started freelancing in 2014, expanded internationally in 2016, joined Uber in 2021, still shipping in 2026
+
+## Services
+
+- Websites: complete sites designed and built from scratch - fast, responsive, and easy to update
+- Landing pages: high-converting pages for campaigns, products, and launches, built to turn visitors into inquiries
+- GHL automations: GoHighLevel setups that handle follow-ups, pipelines, and reminders so no lead slips through
+- Logo and branding: logos, marks, and visual identities that look sharp everywhere, from favicon to billboard
+- Graphic design: social media creatives, marketing materials, and layout work that stays on-brand on every platform
+- SEO: on-page SEO, technical cleanups, and content structure that help the right people find you on Google
+
+## Selected Work
+
+- [Always Ascending](https://alwaysascending.store): sleek, dark-tone web presence blending media, music, events, and merch with smooth transitions and an immersive layout
+- [JTQ Global Support](https://jtq-global.com): modern web presence for a remote support agency offering dedicated teams across sales, marketing, tech, and operations
+- [Prominent Detailing](https://prominentdetailingllc.com): clean, contemporary site for a mobile auto detailing service offering ceramic coatings, paint correction, and interior restoration
+- [Gradient Generator](https://gradiently.netlify.app): create beautiful gradients with customizable colors and export them for websites, graphics, and apps
+- [Zen New Tab](https://chromewebstore.google.com/detail/zen-new-tab/chhlgdhacpabpphphdhjicnpbpklpdbk): minimal, customizable new tab extension with quick links, weather, quotes, and a smooth dark/light interface
+- [QR & Barcode Generator](https://qrocket.netlify.app): QR codes and barcodes with responsive, modern UX, multiple formats, and instant downloads
+- [Finetouch Maintenance](https://finetouchmaintenance.com): professional maintenance and contracting company website with clear service descriptions and easy contact options
+- [El Colorado Construction](https://elcoloradoconstruction.com): residential construction and landscaping site showcasing past projects with straightforward service inquiries
+- [Paramo Construction](https://paramoconstructioninc.com): roofing and exterior services with a clean layout and online quote requests
+- [In the Dog House TX](https://inthedoghousetx.com): pet boarding and daycare website with booking info, detailed care options, and a gallery
+- [Pomochi](https://pomochi.netlify.app): countdown timer designed for focus - set multiple sessions and track productivity
+- [Simple Invoice Generator](https://sigbygean.netlify.app): fast, minimal invoice tool for freelancers - professional invoices in seconds
+- [PayPal Fees Calculator](https://ppfees.netlify.app): quickly estimate PayPal charges and adjust payments accurately
+- [Currency Converter](https://fxmirror.netlify.app): converter with live rates and charts, visualizing exchange trends in real time
+
+## Skills
+
+JavaScript, HTML, CSS, UI/UX (Figma), WordPress, cPanel, GitHub, GoHighLevel, responsive design, SEO fundamentals
+
+## Contact
+
+- Email: [geanpaulo@mail.com](mailto:geanpaulo@mail.com)
+- WhatsApp: [+63 920 265 2736](https://wa.me/639202652736)
+- Links hub: [links.geanpaulo.com](https://links.geanpaulo.com)
+- GitHub: [github.com/geanpaulo19](https://github.com/geanpaulo19)
+- Facebook: [facebook.com/geanpaulofrancois](https://www.facebook.com/geanpaulofrancois/)
+- X: [x.com/geanpaulo_](https://x.com/geanpaulo_)
+- Instagram: [instagram.com/geanpau.lo](https://www.instagram.com/geanpau.lo/)
+
+## Site Notes
+
+Single-page portfolio built with React, Vite, Tailwind CSS, TypeScript, and Motion; deployed on GitHub Pages. Sections: hero, selected work, services ("What I Do"), about, skills marquee, daily quote ("Journal"), contact ("Reach"), and footer.
