@@ -29,6 +29,9 @@
   --font-display: 'Archivo', 'Inter', system-ui, sans-serif;
   --font-body: 'Inter', system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', monospace;
+  /* Phones stack the Selected Work cards; everything wider - incl.
+     foldables unfolded (~600-717px) - gets the film strip. */
+  --breakpoint-phone: 500px;
 }
 
 /* ============================================================
