@@ -63,30 +63,12 @@
         "image": "https://geanpaulo.com/assets/images/geanopengraph.png",
         "jobTitle": "Web Designer & Front-End Developer",
         "description": "Web designer and front-end developer creating modern, interactive, and user-friendly web experiences.",
-        "email": "mailto:geanpaulo@mail.com",
-        "address": {
-          "@type": "PostalAddress",
-          "addressLocality": "Manila",
-          "addressCountry": "PH"
-        },
-        "knowsAbout": [
-          "JavaScript",
-          "HTML",
-          "CSS",
-          "UI/UX design",
-          "WordPress",
-          "cPanel",
-          "GitHub",
-          "GoHighLevel",
-          "SEO",
-          "Responsive web design"
-        ],
         "sameAs": [
-          "https://links.geanpaulo.com",
           "https://github.com/geanpaulo19",
           "https://www.facebook.com/geanpaulofrancois/",
           "https://x.com/geanpaulo_",
-          "https://www.instagram.com/geanpau.lo/"
+          "https://www.instagram.com/geanpau.lo/",
+          "https://geanpaulo.link"
         ]
       }
     </script>
@@ -106,41 +88,5 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
-
-    <!-- Cal floating-popup embed code -->
-    <script type="text/javascript">
-      (function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if(typeof namespace === "string"){cal.ns[namespace] = cal.ns[namespace] || api;p(cal.ns[namespace], ar);p(cal, ["initNamespace", namespace]);} else p(cal, ar); return;} p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
-      Cal("init", "quick-consultation", {origin:"https://app.cal.com"});
-      Cal.config = Cal.config || {};
-      Cal.config.forwardQueryParams = true;
-
-      Cal.ns["quick-consultation"]("floatingButton", {"calLink":"geanpaulo/quick-consultation","config":{"layout":"month_view","useSlotsViewOnSmallScreen":"true"},"buttonText":"Book Consultation"});
-      Cal.ns["quick-consultation"]("ui", {"hideEventTypeDetails":false,"layout":"month_view"});
-    </script>
-
-    <script>
-      (function resizeFloatingBtn() {
-        const el = document.querySelector("cal-floating-button");
-        if (el && el.shadowRoot) {
-          const btn = el.shadowRoot.querySelector("button");
-          const icon = el.shadowRoot.querySelector("#button-icon svg");
-          const label = el.shadowRoot.querySelector("#button");
-          if (btn) {
-            btn.style.height = "2.5rem";
-            btn.style.padding = "0.375rem 0.875rem";
-            btn.style.fontSize = "0.8125rem";
-          }
-          if (icon) {
-            icon.style.height = "1.125rem";
-            icon.style.width = "1.125rem";
-          }
-          if (label) {
-            label.style.marginLeft = "0.375rem";
-          }
-        } else {
-          setTimeout(resizeFloatingBtn, 100);
-        }
-      })();
-    </script>
   </body>
 </html>
