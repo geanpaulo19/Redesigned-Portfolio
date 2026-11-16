@@ -48,7 +48,7 @@ export function JournalSection() {
       <div
         ref={ref}
         className={cn(
-          'mx-auto flex w-full max-w-4xl flex-col items-center px-6 py-24 text-center md:py-32',
+          'section-pad mx-auto flex w-full max-w-4xl flex-col items-center px-6 text-center',
           visible ? 'animate-fade-rise' : 'opacity-0',
         )}
       >

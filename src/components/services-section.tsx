@@ -61,7 +61,11 @@ export function ServicesSection() {
   const heading = useReveal<HTMLDivElement>()
 
   return (
-    <section id="services" aria-label="Services" className="mx-auto w-full max-w-7xl px-6 pt-20 pb-24 md:px-8 md:pt-28 md:pb-32">
+    <section
+      id="services"
+      aria-label="Services"
+      className="section-pad mx-auto w-full max-w-7xl px-6 md:px-8"
+    >
       <div ref={heading.ref} className={cn(heading.visible ? 'animate-fade-rise' : 'opacity-0')}>
         <h2
           className="font-display text-5xl font-bold tracking-tight sm:text-6xl"

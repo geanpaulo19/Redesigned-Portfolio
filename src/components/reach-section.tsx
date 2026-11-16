@@ -79,7 +79,7 @@ export function ReachSection() {
       <div
         ref={ref}
         className={cn(
-          'mx-auto w-full max-w-7xl px-6 py-24 md:px-8 md:py-40',
+          'section-pad mx-auto w-full max-w-7xl px-6 md:px-8',
           visible ? 'animate-fade-rise' : 'opacity-0',
         )}
       >

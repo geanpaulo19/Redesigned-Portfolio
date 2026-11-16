@@ -91,7 +91,7 @@ export function AboutSection() {
 
   return (
     <section id="about" ref={sectionRef} className="border-t border-border">
-      <div className="mx-auto w-full max-w-7xl px-6 py-24 md:px-8 md:py-36">
+      <div className="section-pad mx-auto w-full max-w-7xl px-6 md:px-8">
         <div ref={heading.ref} className="grid gap-14 md:grid-cols-12">
           <div className="md:col-span-5">
             <div
