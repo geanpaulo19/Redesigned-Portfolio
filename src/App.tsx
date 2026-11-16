@@ -46,9 +46,11 @@ const page = (
 
       <main>
         {/* Statement - the manifesto moment, with inline graphics */}
+        {/* The intro keeps the section's top rhythm but a tighter bottom
+            so it flows straight into the pinned work gallery. */}
         <section
           aria-label="Introduction"
-          className="section-pad mx-auto w-full max-w-6xl px-6 md:px-8"
+          className="mx-auto w-full max-w-6xl px-6 pt-24 pb-4 md:px-8 md:pt-32 md:pb-0"
         >
           <TextScrub
             className="font-display text-3xl leading-tight font-semibold tracking-tight text-balance sm:text-5xl md:text-6xl"
