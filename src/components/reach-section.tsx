@@ -3,6 +3,7 @@ import { motion, useMotionValue, useReducedMotion, useSpring } from 'motion/reac
 import { useEffect, useRef, useState, type ReactNode } from 'react'
 
 import { AnimatedHeading } from '@/components/animated-heading'
+import { ContactModal } from '@/components/contact-modal'
 import { Button } from '@/components/ui/button'
 import { useManilaTime } from '@/hooks/use-manila-time'
 import { useManilaWeather, weatherIcon, weatherText } from '@/hooks/use-manila-weather'
@@ -49,6 +50,7 @@ export function ReachSection() {
   const visitor = useVisitorTime()
   const { ref, visible } = useReveal<HTMLDivElement>()
   const [copied, setCopied] = useState(false)
+  const [contactOpen, setContactOpen] = useState(false)
   const copiedTimer = useRef<number | undefined>(undefined)
 
   useEffect(() => () => window.clearTimeout(copiedTimer.current), [])
@@ -93,8 +95,17 @@ export function ReachSection() {
 
         <div className="mt-12 flex flex-wrap items-center gap-3">
           <Magnetic>
-            <Button asChild className="rounded-full px-9 py-4 text-base">
-              <a href={`mailto:${contact.email}`}>Get in Touch</a>
+            <Button
+              type="button"
+              onClick={() => setContactOpen(true)}
+              aria-haspopup="dialog"
+              className="group rounded-full px-9 py-4 text-base"
+            >
+              Get in Touch
+              <i
+                className="ph ph-arrow-up-right transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                aria-hidden="true"
+              />
             </Button>
           </Magnetic>
           <Button
@@ -145,6 +156,8 @@ export function ReachSection() {
           </p>
         )}
       </div>
+
+      <ContactModal open={contactOpen} onClose={() => setContactOpen(false)} />
     </section>
   )
 }
