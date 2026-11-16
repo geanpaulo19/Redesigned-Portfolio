@@ -103,16 +103,16 @@ export function AboutSection() {
               <motion.img
                 src="/assets/images/hero.jpg"
                 alt="Portrait of Gean Paulo"
-                width={128}
-                height={128}
+                width={96}
+                height={96}
                 loading="lazy"
                 decoding="async"
                 style={reduced ? undefined : { y: portraitY }}
-                className="size-32 shrink-0 rounded-full object-cover ring-1 ring-border"
+                className="size-24 shrink-0 rounded-full object-cover ring-1 ring-border"
               />
               <div>
                 <h2
-                  className="font-display text-5xl font-bold tracking-tight sm:text-6xl"
+                  className="section-heading font-display font-bold tracking-tight"
                   style={{ fontStretch: '108%' }}
                 >
                   <AnimatedHeading text="About" />

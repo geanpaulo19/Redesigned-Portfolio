@@ -68,7 +68,7 @@ export function ServicesSection() {
     >
       <div ref={heading.ref} className={cn(heading.visible ? 'animate-fade-rise' : 'opacity-0')}>
         <h2
-          className="font-display text-5xl font-bold tracking-tight sm:text-6xl"
+          className="section-heading font-display font-bold tracking-tight"
           style={{ fontStretch: '108%' }}
         >
           <AnimatedHeading text="What I do" />

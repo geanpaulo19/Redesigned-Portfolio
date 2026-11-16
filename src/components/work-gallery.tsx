@@ -245,7 +245,7 @@ export function WorkGallery() {
           className="relative max-lg:sticky max-lg:top-0 max-lg:z-10 max-lg:bg-background max-lg:pt-20"
         >
           <div className="flex items-end justify-between px-6 pb-8 md:px-8">
-            <h2 className="font-display text-4xl font-bold tracking-tight sm:text-5xl" style={{ fontStretch: '108%' }}>
+            <h2 className="section-heading font-display font-bold tracking-tight" style={{ fontStretch: '108%' }}>
               <AnimatedHeading text="Selected Work" />
             </h2>
             <p className="hidden font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground sm:block">
