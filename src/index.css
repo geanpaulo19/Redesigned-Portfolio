@@ -102,6 +102,24 @@ html.lenis body {
   }
 }
 
+/* ============================================================
+   SECTION RHYTHM
+   One shared top/bottom padding for the main content sections.
+   The hero, pinned work gallery, skills strip, and footer keep
+   their own structural spacing.
+   ============================================================ */
+@layer utilities {
+  .section-pad {
+    padding-block: 6rem;
+  }
+
+  @media (min-width: 48rem) {
+    .section-pad {
+      padding-block: 8rem;
+    }
+  }
+}
+
 /* Melts the hero video into the page: legibility at the nav,
    seamless hand-off to the section below. */
 @layer utilities {
