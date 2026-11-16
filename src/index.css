@@ -29,9 +29,6 @@
   --font-display: 'Archivo', 'Inter', system-ui, sans-serif;
   --font-body: 'Inter', system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', monospace;
-  /* Phones stack the Selected Work cards; everything wider - incl.
-     foldables unfolded (~600-717px) - gets the film strip. */
-  --breakpoint-phone: 500px;
 }
 
 /* ============================================================
@@ -285,3 +282,92 @@ html.lenis body {
     animation: none !important;
   }
 }
+
+/* ============================================================
+   CONTACT DIALOG
+   Native <dialog> handles focus, Escape, and top-layer stacking.
+   These rules only cover the entrance, exit, and backdrop.
+   ============================================================ */
+.contact-dialog {
+  opacity: 0;
+  transform: translateY(14px) scale(0.985);
+  transition:
+    opacity 220ms cubic-bezier(0.23, 1, 0.32, 1),
+    transform 220ms cubic-bezier(0.23, 1, 0.32, 1),
+    overlay 220ms allow-discrete,
+    display 220ms allow-discrete;
+}
+
+.contact-dialog[open] {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.contact-dialog::backdrop {
+  background: rgb(6 6 8 / 0.72);
+  -webkit-backdrop-filter: blur(10px) saturate(1.15);
+  backdrop-filter: blur(10px) saturate(1.15);
+  opacity: 0;
+  transition:
+    opacity 220ms ease-out,
+    overlay 220ms allow-discrete,
+    display 220ms allow-discrete;
+}
+
+.contact-dialog[open]::backdrop {
+  opacity: 1;
+}
+
+/* State changes inside the dialog should land faster than page reveals. */
+@keyframes dialog-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.dialog-reveal {
+  animation: dialog-reveal 280ms cubic-bezier(0.23, 1, 0.32, 1) both;
+}
+
+@starting-style {
+  .contact-dialog[open] {
+    opacity: 0;
+    transform: translateY(14px) scale(0.985);
+  }
+
+  .contact-dialog[open]::backdrop {
+    opacity: 0;
+  }
+}
+
+/* Chrome's yellow autofill slab would break the dark panel. */
+.contact-dialog input:-webkit-autofill,
+.contact-dialog textarea:-webkit-autofill,
+.contact-dialog select:-webkit-autofill {
+  -webkit-text-fill-color: var(--foreground);
+  -webkit-box-shadow: 0 0 0 1000px #1b1b20 inset;
+  caret-color: var(--foreground);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .contact-dialog,
+  .contact-dialog[open] {
+    transition: none;
+    transform: none;
+  }
+
+  .contact-dialog::backdrop,
+  .contact-dialog[open]::backdrop {
+    transition: none;
+  }
+
+  .dialog-reveal {
+    animation: none;
+  }
+}
+
