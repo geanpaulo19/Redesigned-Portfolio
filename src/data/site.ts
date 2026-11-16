@@ -8,7 +8,7 @@ export const navLinks = [
 
 /** Flip `open` when your calendar fills up: both status lines update. */
 export const availability = {
-  open: true,
+  open: false,
   available: 'Available for projects',
   booked: 'Currently booked',
 }
