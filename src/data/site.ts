@@ -24,7 +24,7 @@ export const skills = [
 ]
 
 export const contact = {
-  email: 'geanpaulo@mail.com',
+  email: 'hello@geanpaulo.com',
   whatsapp: 'https://wa.me/639202652736',
 }
 
