@@ -50,7 +50,7 @@ const page = (
             so it flows straight into the pinned work gallery. */}
         <section
           aria-label="Introduction"
-          className="mx-auto w-full max-w-6xl px-6 pt-24 pb-4 md:px-8 md:pt-32 md:pb-0"
+          className="mx-auto w-full max-w-6xl px-6 pt-20 pb-4 md:px-8 md:pt-28 md:pb-0"
         >
           <TextScrub
             className="font-display text-3xl leading-tight font-semibold tracking-tight text-balance sm:text-5xl md:text-6xl"

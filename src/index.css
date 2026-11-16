@@ -110,12 +110,26 @@ html.lenis body {
    ============================================================ */
 @layer utilities {
   .section-pad {
-    padding-block: 6rem;
+    padding-block: 5rem;
   }
 
   @media (min-width: 48rem) {
     .section-pad {
-      padding-block: 8rem;
+      padding-block: 7rem;
+    }
+  }
+}
+
+/* One display size for every main section heading. */
+@layer utilities {
+  .section-heading {
+    font-size: 2.25rem;
+    line-height: 1;
+  }
+
+  @media (min-width: 40rem) {
+    .section-heading {
+      font-size: 3rem;
     }
   }
 }
