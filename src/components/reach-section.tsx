@@ -93,7 +93,7 @@ export function ReachSection() {
           Let&rsquo;s build something amazing together.
         </p>
 
-        <div className="mt-12 flex flex-wrap items-center gap-3">
+        <div className="mt-8 flex flex-wrap items-center gap-3">
           <Magnetic>
             <Button
               type="button"
@@ -127,7 +127,7 @@ export function ReachSection() {
           </Button>
         </div>
 
-        <p className="mt-12 flex flex-wrap items-center gap-2.5 font-mono text-xs text-muted-foreground">
+        <p className="mt-8 flex flex-wrap items-center gap-2.5 font-mono text-xs text-muted-foreground">
           <span
             className="inline-block size-2 rounded-full"
             style={{
@@ -149,7 +149,7 @@ export function ReachSection() {
         </p>
 
         {visitor && (
-          <p className="mt-3 font-mono text-xs text-muted-foreground">
+          <p className="mt-2 font-mono text-xs text-muted-foreground">
             It&rsquo;s {visitor.time} where you are
             {visitor.dayDiff === 1 && '. That\u2019s already tomorrow for me'}
             {visitor.dayDiff === -1 && '. That\u2019s still yesterday for me'}.
